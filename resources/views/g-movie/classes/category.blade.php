@@ -35,6 +35,19 @@
                             {!! Form::text('slug', '', ['id' => 'slug', 'class' => 'form-control', 'placeholder' => 'duong-dan-tinh']) !!}
                         </div>
                     </div>
+                    {{-- <div class="form-group row">
+                        <div class="d-flex justify-content-end align-items-center gap-2">
+                            {!! Form::checkbox('seo_key', 'SEO') !!}
+                            <span>SEO</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {!! Form::label('slug', 'Đường dẫn tĩnh', ['class' => 'col-sm-3 col-form-label']) !!}
+                        <div class="col-sm-9">
+                            {!! Form::text('slug', '', ['id' => 'slug', 'class' => 'form-control', 'placeholder' => 'duong-dan-tinh']) !!}
+                        </div>
+                    </div> --}}
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -48,9 +61,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-
-            var movieTable = $("#movieTable").DataTable({
-                serverSide: true,
+            var movieTable = initDataTable('#movieTable', {
                 columns: [{
                         "data": "name"
                     },
@@ -70,9 +81,14 @@
                         }
                     },
                 ],
-            })
+            });
         })
         $(function() {
+            $('.new_category').on('click', function() {
+                $('input[name="id"]').val('');
+                $('input[name="name"]').val('');
+                $('input[name="slug"]').val('');
+            });
             $('input[name="name"]').on('keyup', function() {
                 const slug = changeToSlug($(this).val());
                 $('input[name="slug"]').val(slug);
@@ -117,7 +133,7 @@
                     new_category.find('input[name="slug"]').val(res.slug);
                     new_category.find('#title-modal').text('Sửa thể loại');
                     new_category.modal('show');
-                });e
+                });
             })
         })
     </script>

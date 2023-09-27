@@ -15,6 +15,7 @@ if (!function_exists('createOrUpdate')) {
   {
     if(empty($data['id'])){
       $data['created_at'] = $time;
+      $data['updated_at'] = $time;
       \DB::table($table)->insert($data);
       return 'Đã tạo mới thành công';
     }else{

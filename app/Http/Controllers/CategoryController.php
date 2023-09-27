@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use \Auth;
 
 class CategoryController extends Controller
 {
@@ -21,7 +22,7 @@ class CategoryController extends Controller
         }
         $data['categories'] = $categories;
         $data['modal_id'] = 'new_category';
-        return view('g-movie.categories.index', $data);
+        return view('g-movie.classes.category', $data);
     }
 
     /**
@@ -30,6 +31,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['user_id'] = Auth::id();
         $res = createOrUpdate('categories', $data, Carbon::now());
         return response()->json([
             'status' => true,

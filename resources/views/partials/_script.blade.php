@@ -15,7 +15,7 @@
 <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
 <script src="{{ asset('assets/js/moment-with-locate.min.js') }}"></script>
-<script src="{{ asset('utils/cute-alert/cute-alert.js')}}"></script>
+<script src="{{ asset('utils/cute-alert/cute-alert.js') }}"></script>
 <!-- End custom js for this page -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
@@ -62,7 +62,7 @@
 </script> --}}
 <script>
     var url = "{{ env('APP_URL') }}"
-		toastr.options.rtl = true;
+    toastr.options.rtl = true;
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -99,12 +99,22 @@
         //In slug ra textbox có id “slug”
         return slug;
     }
-
-
     // $('.logout-btn').on('click', function(){
     // 	$.post(url + '/logout', (res, status) => {
     // 		window.location.href =url
     // 	});
     // })
+    function initDataTable(selector = '', data = {}) {
+        const configDatatable = {
+            "language": {
+                "lengthMenu": "Hiện _MENU_ dữ liệu",
+                "zeroRecords": "Không có dữ liệu",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtered from _MAX_ total records)"
+            },
+            serverSide: true,
+        };
+        $(selector).DataTable({...configDatatable, ...data})
+    }
 </script>
 @stack('js')

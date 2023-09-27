@@ -24,7 +24,7 @@
                 @if(isset($route_new))
                 <a href="{{ $route_new }}" class="btn btn-primary">Thêm mới</a>
                 @elseif(isset($modal_id))
-                <a href="#" data-bs-toggle="modal" data-bs-target="#{{$modal_id}}" class="btn btn-primary">Thêm mới</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#{{$modal_id}}" class="btn btn-primary {{$modal_id}}">Thêm mới</a>
                 @endif
                 @if(isset($route_list))
                 <a href="{{ $route_list }}" class="btn btn-success">Danh sách</a>
