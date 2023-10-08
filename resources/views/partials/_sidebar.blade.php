@@ -21,13 +21,13 @@
       </a>
       <div class="collapse" id="phan_loai">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="#">Danh sách</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('catalogs.')}}">Danh sách</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{ route('categories.')}}">Thể loại</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#">Tags</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#">Khu vực</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#">Diễn viên</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#">Đạo diễn</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#">Studio</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('tags.')}}">Tags</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('regions.')}}">Khu vực</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('actors.')}}">Diễn viên</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('directors.')}}">Đạo diễn</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('studios.')}}">Studio</a></li>
         </ul>
       </div>
     </li>

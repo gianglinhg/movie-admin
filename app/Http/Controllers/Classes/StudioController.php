@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Classes;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Studio;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
-use \Auth;
 
-class CategoryController extends Controller
+class StudioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(){
         $data = [];
-        $data['title'] = 'Thể loại';
-        $categories = Category::all();
+        $data['title'] = 'Studios';
+        $studios = Studio::all();
         if(request()->ajax()){
-            return DataTables::of($categories)->make(true);
+            return DataTables::of($studios)->make(true);
         }
-        $data['categories'] = $categories;
-        $data['modal_id'] = 'new_category';
-        return view('g-movie.classes.category', $data);
+        $data['studios'] = $studios;
+        $data['modal_id'] = 'new_studio';
+        return view('g-movie.classes.studio', $data);
     }
 
     /**
@@ -31,8 +31,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = Auth::id();
-        $res = createOrUpdate('categories', $data, Carbon::now());
+        $data['name_md5'] = md5($data['name']);
+        $res = createOrUpdate('studios', $data, Carbon::now());
         return response()->json([
             'status' => true,
             'res' => $res
@@ -44,8 +44,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::find($id);
-        return response()->json($category, 200);
+        $studio = Studio::find($id);
+        return response()->json($studio, 200);
     }
 
     /**
@@ -53,8 +53,8 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = Category::find($id);
-        $category->delete();
+        $studio = Studio::find($id);
+        $studio->delete();
         return response()->json([
             'status' => true,
             'message' => 'Đã xóa thành công',

@@ -1,10 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MovieController;
-use App\Http\Controllers\CategoryController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +25,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
 
-    Route::prefix('categories')->name('categories.')->group(function(){
-        Route::get('/', [CategoryController::class, 'index']);
-        Route::post('/store', [CategoryController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('edit');
-        Route::post('/destroy/{id}', [CategoryController::class, 'destroy'])->name('destroy');
-    });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -41,3 +34,4 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
+require __DIR__.'/classes.php';

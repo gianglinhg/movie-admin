@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <table class="table table-hover table-striped" id="categoryTable">
+    <table class="table table-hover table-striped" id="directorTable">
         <thead>
             <tr>
                 <th>Tên</th>
@@ -11,22 +11,22 @@
     </table>
 @endsection
 @section('modal')
-    <!-- Modal thêm mới thể loại -->
-    <div class="modal fade" id="new_category" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <!-- Modal thêm mới director -->
+    <div class="modal fade" id="new_director" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="title-modal">Thêm mới thể loại</h5>
+                    <h5 class="modal-title" id="title-modal">Thêm mới đạo diễn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                {!! Form::open(['method' => 'post', 'id' => 'new-category']) !!}
+                {!! Form::open(['method' => 'post', 'id' => 'new-director']) !!}
                 <input type="hidden" name="id">
                 <div class="modal-body">
                     <div class="form-group row">
-                        {!! Form::label('name', 'Tên thể loại', ['class' => 'col-sm-3 col-form-label']) !!}
+                        {!! Form::label('name', 'Tên director', ['class' => 'col-sm-3 col-form-label']) !!}
                         <div class="col-sm-9">
-                            {!! Form::text('name', '', ['id' => 'name', 'class' => 'form-control', 'placeholder' => 'Tên thể loại']) !!}
+                            {!! Form::text('name', '', ['id' => 'name', 'class' => 'form-control', 'placeholder' => 'Tên director']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -61,7 +61,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var categoryTable = initDataTable('#categoryTable', {
+            var directorTable = initDataTable('#directorTable', {
                 columns: [{
                         "data": "name"
                     },
@@ -84,7 +84,7 @@
             });
         })
         $(function() {
-            $('.new_category').on('click', function() {
+            $('.new_director').on('click', function() {
                 $('input[name="id"]').val('');
                 $('input[name="name"]').val('');
                 $('input[name="slug"]').val('');
@@ -99,40 +99,40 @@
                 data.id = $('input[name="id"]').val();
                 data.name = $('input[name="name"]').val();
                 data.slug = $('input[name="slug"]').val();
-                $.post("{{ route('categories.store') }}", data, (res, status) => {
+                $.post(`${url}/directors/store`, data, (res, status) => {
                     if (res.status) {
                         toastr.success(res.res);
-                        $('#new_category').modal('hide');
-                        $("#movieTable").DataTable().ajax.reload();
+                        $('#new_director').modal('hide');
+                        $("#directorTable").DataTable().ajax.reload();
                     }
                 });
             });
-            $('#movieTable').on('click', '.btn-remove', function() {
+            $('#directorTable').on('click', '.btn-remove', function() {
                 cuteAlert({
                     type: "question",
-                    title: "Bạn có chắc xóa thể loại phim này không ?",
+                    title: "Bạn có chắc xóa director phim này không ?",
                     message: "Hành động này không thể hoàn tác !!!",
                     confirmText: "Chắc chắn",
                     cancelText: "Trở về"
                 }).then((e) => {
                     if (e == 'confirm') {
                         const id = $(this).data('id');
-                        $.post(`${url}/categories/destroy/${id}`, (res, status) => {
+                        $.post(`${url}/directors/destroy/${id}`, (res, status) => {
                             toastr.success(res.message);
-                            $("#movieTable").DataTable().ajax.reload();
+                            $("#directorTable").DataTable().ajax.reload();
                         });
                     }
                 })
             })
-            $('#movieTable').on('click', '.btn-edit', function() {
+            $('#directorTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
-                $.get(`${url}/categories/${id}/edit`, (res, status) => {
-                    const new_category = $('#new_category');
-                    new_category.find('input[name="id"]').val(res.id);
-                    new_category.find('input[name="name"]').val(res.name);
-                    new_category.find('input[name="slug"]').val(res.slug);
-                    new_category.find('#title-modal').text('Sửa thể loại');
-                    new_category.modal('show');
+                $.get(`${url}/directors/${id}/edit`, (res, status) => {
+                    const new_director = $('#new_director');
+                    new_director.find('input[name="id"]').val(res.id);
+                    new_director.find('input[name="name"]').val(res.name);
+                    new_director.find('input[name="slug"]').val(res.slug);
+                    new_director.find('#title-modal').text('Sửa đạo diễn');
+                    new_director.modal('show');
                 });
             })
         })
