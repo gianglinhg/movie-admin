@@ -17,33 +17,40 @@
 @endsection
 @push('js')
     <script>
-            var table = initDataTable('#movieTable',{
-              columns: [{
-                        "data": "name"
-                    },
-                    {
-                        "data": "thumb_url",
-                        render: function(data, type, row) {
-                            return `<img src="https://www.themoviedb.org/t/p/original/opevpxkVi07xjvgQR7tctWs2i8o.jpg" alt="${row.name}">`
-                        }
-                    },
-                    {
-                        "data": "trailer_url"
-                    },
-                    {
-                        "data": "status"
-                    },
-                    {
-                        data: 'user_name',
-                        name: 'user_name'
-                    },
-                    {
-                        "data": "view_total"
-                    },
-                    {
-                        "data": "",
-                        render: function(data, type, row) {
-                            return `
+        var table = initDataTable('#movieTable', {
+            columns: [{
+                    "data": "name",
+                    "name": "name",
+                    render: function (data, type, row) {
+                    return $("<div>").html(data).text(); // Đảm bảo rằng HTML được hiển thị mà không bị xử lý
+                }
+                },
+                {
+                    "data": "thumb_url",
+                    render: function(data, type, row) {
+                        return `<img src="https://www.themoviedb.org/t/p/original/opevpxkVi07xjvgQR7tctWs2i8o.jpg" alt="${row.name}">`
+                    }
+                },
+                {
+                    "data": "cate_name",
+                    name: 'cate_name'
+
+                },
+                {
+                    "data": "region_name",
+                    name: "region_name"
+                },
+                {
+                    data: 'user_name',
+                    name: 'user_name'
+                },
+                {
+                    "data": "view_total"
+                },
+                {
+                    "data": "",
+                    render: function(data, type, row) {
+                        return `
             <button class="btn btn-inverse-primary btn-rounded btn-icon">
               <a href="#">
                 <i class="mdi mdi-grease-pencil"></i>
@@ -55,9 +62,9 @@
               </a>
             </button>
             `
-                        }
-                    },
-                ]
-            })
+                    }
+                },
+            ],
+        })
     </script>
 @endpush

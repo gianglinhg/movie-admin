@@ -24,6 +24,34 @@ class MovieController extends Controller
             ->addColumn('user_name', function ($row) {
                 return $row->user_name;
             })
+            ->editColumn('name', function($row){
+                $statusText = '';
+                switch ($row->status) {
+                    case 'completed':
+                        $statusText = 'Hoàn thành';
+                        break;
+                    case 'trailer':
+                        $statusText = 'Sắp chiếu';
+                        break;
+                    case 'ongoing':
+                        $statusText = 'Đang chiếu';
+                        break;
+                }
+                return "
+                    <h4>$row->name</h4>
+                    <p>$row->origin_name</p>
+                    <div style='display: flex; gap: 5px'>
+                        <button type='button' class='btn btn-inverse-success btn-sm'>" . ($row->type == 'single' ? 'Phim lẻ' : 'Phim bộ') ."</button>
+                        <button type='button' class='btn btn-inverse-secondary btn-sm'>$statusText</button>
+                    </div>
+                ";
+            })
+            ->addColumn('cate_name', function($row){
+                return $row->categories->pluck('name')->implode(', ');
+            })
+            ->addColumn('region_name', function($row){
+                return $row->regions->pluck('name')->implode(', ');
+            })
             ->toJson();
         }
         $data['movies'] = $movies;

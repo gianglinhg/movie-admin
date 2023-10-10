@@ -31,7 +31,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = Auth::id();
+        $data['user_id'] = \Auth::id();
         $res = createOrUpdate('categories', $data, Carbon::now());
         return response()->json([
             'status' => true,

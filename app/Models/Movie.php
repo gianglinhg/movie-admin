@@ -63,7 +63,7 @@ class Movie extends Model
     }
     public function regions()
     {
-        return $this->belongsToMany(Region::class, 'region_movie', 'movie_id', 'region_id');
+        return $this->belongsToMany(Region::class, 'movie_region', 'movie_id', 'region_id');
     }
     public function studios()
     {

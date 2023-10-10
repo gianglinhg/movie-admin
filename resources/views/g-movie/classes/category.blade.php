@@ -103,11 +103,11 @@
                     if (res.status) {
                         toastr.success(res.res);
                         $('#new_category').modal('hide');
-                        $("#movieTable").DataTable().ajax.reload();
+                        $("#categoryTable").DataTable().ajax.reload();
                     }
                 });
             });
-            $('#movieTable').on('click', '.btn-remove', function() {
+            $('#categoryTable').on('click', '.btn-remove', function() {
                 cuteAlert({
                     type: "question",
                     title: "Bạn có chắc xóa thể loại phim này không ?",
@@ -124,7 +124,7 @@
                     }
                 })
             })
-            $('#movieTable').on('click', '.btn-edit', function() {
+            $('#categoryTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
                 $.get(`${url}/categories/${id}/edit`, (res, status) => {
                     const new_category = $('#new_category');
