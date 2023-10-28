@@ -25,10 +25,24 @@
 {{-- @vite('resources/css/app.css') --}}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css')}}">
 <link rel="stylesheet" href="{{ asset('utils/cute-alert/style.css')}}">
 
 <style>
+  .tab-content, .nav-pills{
+    border: none;
+  }
+  .tab-content{
+    background-color: #fff;
+    padding: 25px 40px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  .ck-editor__editable_inline {
+    min-height: 200px;
+}
 </style>
 
 @stack('css')

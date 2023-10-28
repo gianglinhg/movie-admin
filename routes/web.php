@@ -15,13 +15,23 @@ use App\Http\Controllers\MovieController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// vendor/ckfinder/ckfinder-laravel-package/src/routes.php
+
+// Route::any('/ckfinder/examples/{example?}', [CKSource\CKFinderBridge\Controller\CKFinderController::class, 'examplesAction'])
+    // ->name('ckfinder_examples');
+Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
+    ->name('ckfinder_connector');
+
+Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
+    ->name('ckfinder_browser');
 
 Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/movies', [MovieController::class, 'index'])->name('movies');
+    // Route::get('/movies', [MovieController::class, 'index'])->name('movies');
+    Route::resource('movies', MovieController::class);
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
 

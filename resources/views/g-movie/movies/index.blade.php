@@ -26,9 +26,8 @@
                 }
                 },
                 {
-                    "data": "thumb_url",
                     render: function(data, type, row) {
-                        return `<img src="https://www.themoviedb.org/t/p/original/opevpxkVi07xjvgQR7tctWs2i8o.jpg" alt="${row.name}">`
+                        return `<img src="${row.poster_url}" alt="${row.slug}">`
                     }
                 },
                 {

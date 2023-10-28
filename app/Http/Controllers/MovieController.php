@@ -6,6 +6,7 @@ use App\Models\Actor;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use DB;
 
 class MovieController extends Controller
 {
@@ -15,6 +16,8 @@ class MovieController extends Controller
     public function index()
     {
         $data = [];
+        $data['title'] = 'Danh sách phim';
+        $data['route_new'] = route("movies.create");
         $movies = Movie::query()
         ->join('users','users.id','=','movies.user_id')
         ->select('movies.*','users.name as user_name')
@@ -63,7 +66,11 @@ class MovieController extends Controller
      */
     public function create()
     {
-        //
+        $data = [];
+        $data['categories'] = DB::table('categories')->get();
+        $data['regions'] = DB::table('regions')->get();
+        $data['title'] = 'Thêm mới phim';
+        return view('g-movie.movies.add', $data);
     }
 
     /**

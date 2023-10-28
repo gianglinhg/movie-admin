@@ -8,7 +8,7 @@
     </li>
     <li class="nav-item nav-category">Phim</li>
     <li class="nav-item {{ request()->is('movies') ? 'active' : '' }}">
-      <a class="nav-link" href="{{ route('movies')}}">
+      <a class="nav-link" href="{{ route('movies.index')}}">
         <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
         <span class="menu-title">Quản lý phim</span>
       </a>
