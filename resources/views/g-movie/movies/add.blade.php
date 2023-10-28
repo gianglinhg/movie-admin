@@ -109,12 +109,6 @@
         </div>
         <div class="tab-pane fade show active" id="class" role="tabpanel">
             <div class="form-group">
-                <select class="js-example-basic-single form-select form-control" multiple="multiple" name="state" data-placeholder="Choose one thing">
-                    <option value="AL">Alabama</option>
-                    <option value="WY">Wyoming</option>
-                </select>
-            </div>
-            <div class="form-group">
                 {!! Form::label('name', 'Phân loại') !!}
                 <div class="form-check">
                     {!! Form::radio('type', 'sigle', '', ['class' => 'form-check-input']) !!}
