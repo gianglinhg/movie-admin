@@ -176,9 +176,9 @@
         </div>
         <div class="tab-pane fade" id="episode-tab" role="tabpanel">
             <div class="input-group mb-3 w-50">
-                <input id="new-server-name" type="text" class="form-control" value="Thuyết minh #1"
-                    placeholder="Thuyết minh #1" aria-label="Thuyết minh #1" aria-describedby="basic-addon2">
-                <span class="btn btn-success" id="add-server-btn" style="padding: 1rem">Thêm mới</span>
+                {{ Form::text('new-server-name','',['id' => 'new-server-name','class' => 'form-control','placeholder'=>'Thuyết minh #1'])}}
+                <span class="btn btn-success md:p-1 add-server-btn">Thêm mới</span>
+                {{-- <span class="btn btn-success md:p-1 md:d-none add-server-btn"><i class="mdi mdi-plus"></i></span> --}}
             </div>
             <ul class="nav nav-tabs nav-line-tabs" id="episode-server-list">
                 <li class="nav-item">
@@ -191,11 +191,11 @@
                     <div class="form-inline justify-content-left mb-3 px-0">
                         <button type="button" class="btn btn-warning add-episode-btn" data-server="0"
                             data-server-name="Vietsub #1">
-                            <i class="las la-plus"></i>
+                            <i class="mdi mdi-plus"></i>
                             Thêm tập mới
                         </button>
                         <button type="button" class="btn btn-danger ml-2 float-right delete-server">
-                            <i class="las la-trash"></i>
+                            <i class="mdi mdi-delete"></i>
                             Xóa server
                         </button>
                     </div>
@@ -207,35 +207,28 @@
                                     <th>Slug</th>
                                     <th>Type</th>
                                     <th>Link</th>
-                                    <th></th>
+                                    <th>#</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="episode">
-                                    <input type="hidden" class="episode-server" name="episodes[0][server]"
-                                        value="Vietsub #1" data-attr-name="server">
-                                    <td><input type="text" name="episodes[0][name]" placeholder="1" value="1"
-                                            class="ep_name form-control" data-attr-name="name">
-                                    </td>
-                                    <td><input type="text" name="episodes[0][slug]" placeholder="tap-1"
-                                            value="tap-1" class="form-control" data-attr-name="slug"></td>
+                                    {!! Form::hidden('episodes[0][server]','Vietsub #1',['class' => 'episode-server', 'data-attr-name' => 'server']) !!}
                                     <td>
-                                        <select name="episodes[0][type]" data-attr-name="type" class="form-control">
-                                            <option value="embed">
-                                                Nhúng</option>
-                                            <option value="mp4">
-                                                MP4</option>
-                                            <option value="m3u8">
-                                                M3U8</option>
-                                        </select>
+                                        {!! Form::text('episodes[0][name]','1',['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
                                     </td>
-                                    <td><input type="text" name="episodes[0][link]" placeholder=""
-                                            class="form-control" data-attr-name="link"></td>
+                                    <td>
+                                        {!! Form::text('episodes[0][slug]','tap-1',['class' => 'ep_slug form-control', 'data-attr-name' => 'slug']) !!}
+                                    </td>
+                                    <td>
+                                        {!! Form::select('episodes[0][type]', config('g-movie.type-video'), null, ['data-attr-name' => 'type', 'class' => 'form-control']) !!}
+                                    </td>
+                                    <td>
+                                        {!! Form::text('episodes[0][link]','tap-1',['class' => 'form-control', 'data-attr-name' => 'link']) !!}
+                                    </td>
                                     <td class="text-center">
                                         <button class="btn btn-outline-danger delete-episode cursor-pointer">Xóa</button>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -244,19 +237,19 @@
         </div>
         <div class="tab-pane fade" id="more-tab" role="tabpanel">
             <div class="col form-check d-flex">
-                {!! Form::checkbox('is_shown_in_theater', '') !!}
+                {!! Form::checkbox('is_shown_in_theater', true) !!}
                 {!! Form::label('is_shown_in_theater', 'Phim chiếu rạp', ['class' => 'form-check-label']) !!}
             </div>
             <div class="col form-check d-flex">
-                {!! Form::checkbox('is_recommended', '') !!}
+                {!! Form::checkbox('is_recommended', true) !!}
                 {!! Form::label('is_recommended', 'Đề cử', ['class' => 'form-check-label']) !!}
             </div>
             <div class="col form-check d-flex">
-                {!! Form::checkbox('is_copyright', '') !!}
+                {!! Form::checkbox('is_copyright', true) !!}
                 {!! Form::label('is_copyright', 'Có bản quyền phim', ['class' => 'form-check-label']) !!}
             </div>
             <div class="col form-check d-flex">
-                {!! Form::checkbox('is_sensitive_content', '') !!}
+                {!! Form::checkbox('is_sensitive_content', true) !!}
                 {!! Form::label('is_sensitive_content', 'Cảnh báo nội dung người lớn', ['class' => 'form-check-label']) !!}
             </div>
         </div>
@@ -326,7 +319,7 @@
                 if (!slug) slug = `tap-${change_alias(name.toString())}`;
             }
             return `<tr class="episode">
-                <input type="hidden" name="episodes[${i}][id]" value="${id}" data-attr-name="id">
+                <input type="hidden" name="episodes[${i}][id]" value="${i}" data-attr-name="id">
                 <input type="hidden" class="episode-server" value="${server}" data-attr-name="server">
                 <td><input type="text" placeholder="${name || '1'}" value="${name || '1'}" class="ep_name form-control"
                     data-attr-name="name">
@@ -346,7 +339,7 @@
                 </td>
             </tr>`
         }
-        $("#add-server-btn").click(function(e) {
+        $(".add-server-btn").click(function(e) {
             const serverCount = $('#episode-server-list').children('.nav-item').length;
             const serverName = $('#new-server-name').val();
             const templateList = (i, name) => {

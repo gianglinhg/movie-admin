@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Episode;
 
 class Movie extends Model
 {
@@ -45,6 +46,14 @@ class Movie extends Model
         'user_id',
         'user_name',
     ];
+
+    public function addEpisode(array $episodes, string $movie_id)
+    {
+        foreach($episodes as $episode){
+            $episode['movie_id'] = $movie_id;
+            Episode::create($episode);
+        }
+    }
     public function directors()
     {
         return $this->belongsToMany(Director::class, 'director_movie', 'movie_id', 'director_id');
@@ -68,5 +77,9 @@ class Movie extends Model
     public function studios()
     {
         return $this->belongsToMany(Studio::class, 'studio_movie', 'movie_id', 'studio_id');
+    }
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class);
     }
 }
