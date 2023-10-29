@@ -1,0 +1,20 @@
+.tab-content{
+  background-color: #fff;
+  padding: 25px 40px;
+  margin-bottom: 20px;
+  border-top: 1px solid #e3e5ef;
+}
+.nav-tabs .nav-link{
+  padding: 0.5rem 1rem;
+}
+.nav-tabs{
+  border: none;
+}
+.required::after{
+  content: ' *';
+  font-size: 1rem;
+  color: #dc3545;
+}
+.validate-list li{
+  list-style: none;
+}

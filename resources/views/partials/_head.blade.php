@@ -29,20 +29,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css')}}">
 <link rel="stylesheet" href="{{ asset('utils/cute-alert/style.css')}}">
-
+<link rel="stylesheet" href="{{ asset('custom.css')}}">
 <style>
-  .tab-content, .nav-pills{
-    border: none;
-  }
-  .tab-content{
-    background-color: #fff;
-    padding: 25px 40px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  .ck-editor__editable_inline {
-    min-height: 200px;
+  .form-control{
+  padding: 10px !important;
 }
 </style>
-
 @stack('css')

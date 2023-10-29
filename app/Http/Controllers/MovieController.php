@@ -78,7 +78,13 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'origin_name' => 'required',
+            'type' => 'required',
+            'status' => 'required',
+        ]);
+        $data = $request->all();
     }
 
     /**
