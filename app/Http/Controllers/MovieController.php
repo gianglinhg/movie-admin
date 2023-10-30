@@ -109,8 +109,12 @@ class MovieController extends Controller
             'user_name' => Auth::user()->name,
         ]);
         if ($movie) {
-            $movie->addEpisode($data['episodes'], $movie->id);
-            if (isset($data['categories'])) {
+            if (isset($data['episodes']) && !empty($data['episodes'])) {
+                foreach ($data['episodes'] as $key => $episode) {
+                    $movie->addEpisode($episode, $movie->id);
+                }
+            }
+            if (isset($data['categories']) && !empty($data['categories'])) {
                 foreach ($data['categories'] as $category) {
                     DB::table('category_movie')->insert([
                         'movie_id' => $movie->id,
@@ -118,7 +122,7 @@ class MovieController extends Controller
                     ]);
                 }
             }
-            if (isset($data['categories'])) {
+            if (isset($data['regions']) && !empty($data['regions'])) {
                 foreach ($data['regions'] as $region) {
                     DB::table('movie_region')->insert([
                         'movie_id' => $movie->id,
@@ -126,7 +130,7 @@ class MovieController extends Controller
                     ]);
                 }
             }
-            if (isset($data['categories'])) {
+            if (isset($data['directors']) && !empty($data['directors'])) {
                 foreach ($data['directors'] as $director) {
                     DB::table('director_movie')->insert([
                         'movie_id' => $movie->id,
@@ -134,7 +138,7 @@ class MovieController extends Controller
                     ]);
                 }
             }
-            if (isset($data['categories'])) {
+            if (isset($data['actors']) && !empty($data['actors'])) {
                 foreach ($data['actors'] as $actor) {
                     DB::table('actor_movie')->insert([
                         'movie_id' => $movie->id,
@@ -142,7 +146,7 @@ class MovieController extends Controller
                     ]);
                 }
             }
-            if (isset($data['categories'])) {
+            if (isset($data['tags']) && !empty($data['tags'])) {
                 foreach ($data['tags'] as $tag) {
                     DB::table('movie_tag')->insert([
                         'movie_id' => $movie->id,
@@ -170,7 +174,41 @@ class MovieController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $movie = Movie::where('id', $id)->first();
+        $data = [];
+        $directors = [];
+        $actors = [];
+        $tags = [];
+        foreach ($movie->directors as $director) {
+            $directors[$director->id] = $director->name;
+        }
+        foreach ($movie->actors as $actor) {
+            $actors[$actor->id] = $actor->name;
+        }
+        foreach ($movie->tags as $tag) {
+            $tags[$tag->id] = $tag->name;
+        }
+        $data['route_list'] = route('movies.index');
+        $data['categories'] = DB::table('categories')->get();
+        $data['regions'] = DB::table('regions')->get();
+        $data['movie_categories'] = $movie->categories->pluck('id')->toArray();
+        $data['movie_regions'] = $movie->regions->pluck('id')->toArray();
+        $data['movie_directors'] = $movie->directors->pluck('name')->toArray();
+        $data['title'] = 'Sửa ' . $movie->name;
+        $data['tags'] = $tags;
+        $data['actors'] = $actors;
+        $data['directors'] = $directors;
+        $data['movie'] = $movie;
+        $episodes = Episode::where('movie_id', $movie->id)->get()->toArray();
+        $episodes_serve = [];
+        foreach ($episodes as $item) {
+            $server_name = $item['server'];
+            if (!array_key_exists($server_name, $episodes_serve)) {
+                $episodes_serve[$server_name] = [];
+            }
+            $episodes_serve[$server_name][] = $item;
+        }
+        return view('g-movie.movies.edit', $data);
     }
 
     /**

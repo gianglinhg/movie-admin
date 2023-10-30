@@ -47,12 +47,10 @@ class Movie extends Model
         'user_name',
     ];
 
-    public function addEpisode(array $episodes, string $movie_id)
+    public function addEpisode(array $episode, string $movie_id)
     {
-        foreach($episodes as $episode){
-            $episode['movie_id'] = $movie_id;
-            Episode::create($episode);
-        }
+        $episode['movie_id'] = $movie_id;
+        Episode::create($episode);
     }
     public function directors()
     {
@@ -68,7 +66,7 @@ class Movie extends Model
     }
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'tag_movie', 'movie_id', 'tag_id');
+        return $this->belongsToMany(Tag::class, 'movie_tag', 'movie_id', 'tag_id');
     }
     public function regions()
     {

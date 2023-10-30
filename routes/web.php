@@ -30,9 +30,7 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/movies', [MovieController::class, 'index'])->name('movies');
     Route::resource('movies', MovieController::class);
-
     Route::get('/users', [UserController::class, 'index'])->name('users');
 
 

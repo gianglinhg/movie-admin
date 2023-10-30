@@ -51,7 +51,7 @@
                     render: function(data, type, row) {
                         return `
             <button class="btn btn-inverse-primary btn-rounded btn-icon">
-              <a href="#">
+              <a href="movies/${row.id}/edit">
                 <i class="mdi mdi-grease-pencil"></i>
               </a>
             </button>
