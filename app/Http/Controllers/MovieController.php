@@ -109,56 +109,24 @@ class MovieController extends Controller
             'user_name' => Auth::user()->name,
         ]);
         if ($movie) {
-            if (isset($data['episodes']) && !empty($data['episodes'])) {
-                foreach ($data['episodes'] as $key => $episode) {
-                    $movie->addEpisode($episode, $movie->id);
-                }
-            }
             if (isset($data['categories']) && !empty($data['categories'])) {
-                foreach ($data['categories'] as $category) {
-                    DB::table('category_movie')->insert([
-                        'movie_id' => $movie->id,
-                        'category_id' => $category,
-                    ]);
-                }
+                addSub('category_movie',$data['categories'], $movie->id, 'category_id');
             }
             if (isset($data['regions']) && !empty($data['regions'])) {
-                foreach ($data['regions'] as $region) {
-                    DB::table('movie_region')->insert([
-                        'movie_id' => $movie->id,
-                        'region_id' => $region,
-                    ]);
-                }
+                addSub('movie_region',$data['regions'], $movie->id, 'region_id');
             }
             if (isset($data['directors']) && !empty($data['directors'])) {
-                foreach ($data['directors'] as $director) {
-                    DB::table('director_movie')->insert([
-                        'movie_id' => $movie->id,
-                        'director_id' => $director,
-                    ]);
-                }
+                addSub('director_movie',$data['directors'], $movie->id, 'director_id');
             }
             if (isset($data['actors']) && !empty($data['actors'])) {
-                foreach ($data['actors'] as $actor) {
-                    DB::table('actor_movie')->insert([
-                        'movie_id' => $movie->id,
-                        'actor_id' => $actor,
-                    ]);
-                }
+                addSub('actor_movie',$data['actors'], $movie->id, 'actor_id');
             }
             if (isset($data['tags']) && !empty($data['tags'])) {
-                foreach ($data['tags'] as $tag) {
-                    DB::table('movie_tag')->insert([
-                        'movie_id' => $movie->id,
-                        'tag_id' => $tag,
-                    ]);
-                }
+                addSub('movie_tag',$data['tags'], $movie->id, 'tag_id');
             }
         }
         toastr('Tạo phim mới thành công', 'success');
         return redirect()->route('movies.index');
-
-        // echo '<pre>';print_r(json_encode($data));echo '</pre>';die();
     }
 
     /**
@@ -208,6 +176,7 @@ class MovieController extends Controller
             }
             $episodes_serve[$server_name][] = $item;
         }
+        $data['episodes_serve'] = $episodes_serve;
         return view('g-movie.movies.edit', $data);
     }
 
@@ -216,7 +185,65 @@ class MovieController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'origin_name' => 'required',
+            'type' => 'required',
+            'status' => 'required',
+        ]);
+        $movie = Movie::findOrFail($id);
+        $data = $request->all();
+        $movie->update([
+            'name' => $request->name,
+            'origin_name' => $request->origin_name,
+            'slug' => $request->slug,
+            'content' => $request->content,
+            'type' => $request->type,
+            'status' => $request->status,
+            'trailer_url' => $request->trailer_url,
+            'publish_year' => $request->publish_year,
+            'quality' => $request->quality,
+            'language' => $request->language,
+            'episode_time' => $request->episode_time,
+            'episode_total' => $request->episode_total,
+            'episode_current' => $request->episode_current,
+            'is_shown_in_theater' => $request->is_shown_in_theater ?? 0,
+            'is_recommended' => $request->is_recommended ?? 0,
+            'is_copyright' => $request->is_copyright ?? 0,
+            'is_sensitive_content' => $request->is_sensitive_content ?? 0,
+            'user_id' => Auth::id(),
+            'user_name' => Auth::user()->name,
+        ]);
+        if ($movie) {
+            if (isset($data['episodes']) && !empty($data['episodes'])) {
+                deleteSub('episodes',$movie->id);
+                foreach ($data['episodes'] as $episode) {
+                    $movie->addEpisode($episode, $movie->id);
+                }
+            }
+            if (isset($data['categories']) && !empty($data['categories'])) {
+                deleteSub('category_movie',$movie->id);
+                addSub('category_movie',$data['categories'], $movie->id, 'category_id');
+            }
+            if (isset($data['regions']) && !empty($data['regions'])) {
+                deleteSub('movie_region',$movie->id);
+                addSub('movie_region',$data['regions'], $movie->id, 'region_id');
+            }
+            if (isset($data['directors']) && !empty($data['directors'])) {
+                deleteSub('director_movie',$movie->id);
+                addSub('director_movie',$data['directors'], $movie->id, 'director_id');
+            }
+            if (isset($data['actors']) && !empty($data['actors'])) {
+                deleteSub('actor_movie',$movie->id);
+                addSub('actor_movie',$data['actors'], $movie->id, 'actor_id');
+            }
+            if (isset($data['tags']) && !empty($data['tags'])) {
+                deleteSub('movie_tag',$movie->id);
+                addSub('movie_tag',$data['tags'], $movie->id, 'tag_id');
+            }
+        }
+        toastr('Cập nhật phim mới thành công', 'success');
+        return redirect()->back();
     }
 
     /**
@@ -224,6 +251,34 @@ class MovieController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $movie = Movie::find($id);
+        if($movie){
+            if (checkSub('episodes',$movie->id)) {
+                deleteSub('episodes',$movie->id);
+            }
+            if (checkSub('category_movie',$movie->id)) {
+                deleteSub('category_movie', $movie->id);
+            }
+            if (checkSub('movie_region',$movie->id)) {
+                deleteSub('movie_region',$movie->id);
+            }
+            if (checkSub('director_movie', $movie->id)) {
+                deleteSub('director_movie', $movie->id);
+            }
+            if (checkSub('actor_movie', $movie->id)) {
+                deleteSub('actor_movie', $movie->id);
+            }
+            if (checkSub('movie_tag', $movie->id)) {
+                deleteSub('movie_tag', $movie->id);
+            }
+            $movie->delete();
+            $status = true;
+        }else{
+            $status = false;
+        }
+        return response()->json([
+            'status'=> $status,
+            'msg'=> 'Đã xóa thành công',
+        ],200);
     }
 }

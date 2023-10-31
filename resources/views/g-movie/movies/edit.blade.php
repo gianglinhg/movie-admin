@@ -181,13 +181,23 @@
                 {{-- <span class="btn btn-success md:p-1 md:d-none add-server-btn"><i class="mdi mdi-plus"></i></span> --}}
             </div>
             <ul class="nav nav-tabs nav-line-tabs" id="episode-server-list">
-                <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#episode-server-0" aria-selected="true"
-                        contenteditable onblur="updateEpisodeServer(this)">Link 1</a>
-                </li>
+                @php
+                    $count = 0;
+                    foreach($episodes_serve as $key => $item){
+                        if($count == 0) $active = 'active';
+                        else $active = '';
+                        echo '<li class="nav-item">
+                        <a class="nav-link '.$active.'" data-bs-toggle="tab" href="#episode-server-'.$count.'" aria-selected="true"
+                        contenteditable onblur="updateEpisodeServer(this)">'.$key.'</a>
+                        </li>';
+                        $count++;
+                    }
+                @endphp
             </ul>
             <div class="tab-content" id="episode-server-data">
-                <div class="tab-pane active" id="episode-server-0" role="tabpanel">
+                @php $count2 = 0 @endphp
+                @foreach($episodes_serve as $key => $item)
+                <div class="tab-pane {{$count2 == 0 ? 'active' : ''}}" id="episode-server-{{$count2}}" role="tabpanel">
                     <div class="form-inline justify-content-left mb-3 px-0">
                         <button type="button" class="btn btn-warning add-episode-btn" data-server="0"
                             data-server-name="Vietsub #1">
@@ -211,28 +221,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="episode">
-                                    {!! Form::hidden('episodes[0][server]','Vietsub #1',['class' => 'episode-server', 'data-attr-name' => 'server']) !!}
-                                    <td>
-                                        {!! Form::text('episodes[0][name]','1',['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
-                                    </td>
-                                    <td>
-                                        {!! Form::text('episodes[0][slug]','tap-1',['class' => 'ep_slug form-control', 'data-attr-name' => 'slug']) !!}
-                                    </td>
-                                    <td>
-                                        {!! Form::select('episodes[0][type]', config('g-movie.type-video'), null, ['data-attr-name' => 'type', 'class' => 'form-control']) !!}
-                                    </td>
-                                    <td>
-                                        {!! Form::text('episodes[0][link]','tap-1',['class' => 'form-control', 'data-attr-name' => 'link']) !!}
-                                    </td>
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-danger delete-episode cursor-pointer">Xóa</button>
-                                    </td>
-                                </tr>
+                                @foreach($episodes_serve[$key] as $stt => $item)
+                                    <tr class="episode">
+                                        {!! Form::hidden('episodes['.$key.'][server]',$item['server'],['class' => 'episode-server', 'data-attr-name' => 'server']) !!}
+                                        <td>
+                                            {!! Form::text('episodes['.$key.'][name]',$item['name'],['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
+                                        </td>
+                                        <td>
+                                            {!! Form::text('episodes['.$key.'][slug]',$item['slug'],['class' => 'ep_slug form-control', 'data-attr-name' => 'slug']) !!}
+                                        </td>
+                                        <td>
+                                            {!! Form::select('episodes['.$key.'][type]', config('g-movie.type-video'), null, ['data-attr-name' => 'type', 'class' => 'form-control']) !!}
+                                        </td>
+                                        <td>
+                                            {!! Form::text('episodes['.$key.'][link]',$item['link'],['class' => 'form-control', 'data-attr-name' => 'link']) !!}
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-outline-danger delete-episode cursor-pointer">Xóa</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
+                @php $count2++ @endphp
+                @endforeach
             </div>
         </div>
         <div class="tab-pane fade" id="more-tab" role="tabpanel">

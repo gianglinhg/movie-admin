@@ -1,11 +1,3 @@
-var url = "{{ env('APP_URL') }}"
-toastr.options.rtl = true;
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
-
 function changeToSlug(title) {
   var slug = '';
   slug = title.toLowerCase();

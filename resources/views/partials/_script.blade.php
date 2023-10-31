@@ -25,4 +25,13 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
 @include('ckfinder::setup')
+<script>
+    var url = "{{ env('APP_URL') }}"
+    toastr.options.rtl = true;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 @stack('js')
