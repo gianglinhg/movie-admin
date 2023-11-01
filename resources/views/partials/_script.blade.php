@@ -34,4 +34,5 @@
         }
     });
 </script>
+@include('partials._iframe')
 @stack('js')

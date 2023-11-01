@@ -34,5 +34,9 @@
   .form-control{
   padding: 10px !important;
 }
+.border{
+  border: 1px solid #333;
+  border-radius: 5px;
+}
 </style>
 @stack('css')

@@ -168,15 +168,21 @@ class MovieController extends Controller
         $data['directors'] = $directors;
         $data['movie'] = $movie;
         $episodes = Episode::where('movie_id', $movie->id)->get()->toArray();
-        $episodes_serve = [];
+        $episodes_serve = $server = [];
+        $name_fake = '';
         foreach ($episodes as $item) {
             $server_name = $item['server'];
+            if(!in_array($server_name, $server)){
+                $server[] = $server_name;
+            }
             if (!array_key_exists($server_name, $episodes_serve)) {
                 $episodes_serve[$server_name] = [];
             }
             $episodes_serve[$server_name][] = $item;
         }
         $data['episodes_serve'] = $episodes_serve;
+        $data['server'] = $server;
+        // dd(request()->route()->named('movies.edit'));
         return view('g-movie.movies.edit', $data);
     }
 
