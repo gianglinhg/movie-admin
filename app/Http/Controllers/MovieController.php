@@ -182,7 +182,6 @@ class MovieController extends Controller
         }
         $data['episodes_serve'] = $episodes_serve;
         $data['server'] = $server;
-        // dd(request()->route()->named('movies.edit'));
         return view('g-movie.movies.edit', $data);
     }
 

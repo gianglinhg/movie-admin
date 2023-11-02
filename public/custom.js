@@ -18,11 +18,6 @@ function changeToSlug(title) {
   slug = slug.replace(/\@\-|\-\@|\@/gi, '');
   return slug;
 }
-// $('.logout-btn').on('click', function(){
-// 	$.post(url + '/logout', (res, status) => {
-// 		window.location.href =url
-// 	});
-// })
 function initDataTable(selector = '', data = {}) {
   const configDatatable = {
     "language": {
@@ -51,3 +46,21 @@ function select2(selector = '', data = {}) {
     ...data
   })
 }
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('fm-main_block').setAttribute('style', 'height:' + window.innerHeight() +' px');
+  fm.$store.commit('/fm/setFileCallBack', function(fileUrl) {
+    window.opener.fmSetLink(fileUrl);
+    window.close();
+  })
+})
+document.addEventListener('DOMContentLoaded', function () {
+  var openFileManagerButton = document.getElementById('lfm');
+  openFileManagerButton.addEventListener('click', function () {
+    var width = 800; // Chiều rộng cửa sổ
+    var height = 600; // Chiều cao cửa sổ
+    var url = '/laravel-filemanager?type=Images'; // Đường dẫn tới Laravel File Manager
+
+    // Sử dụng window.open() để mở cửa sổ mới
+    window.open(url, 'LaravelFileManager', 'width=' + width + ', height=' + height);
+  });
+});

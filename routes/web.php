@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\FileManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +18,10 @@ use App\Http\Controllers\MovieController;
 */
 // vendor/ckfinder/ckfinder-laravel-package/src/routes.php
 
-// Route::any('/ckfinder/examples/{example?}', [CKSource\CKFinderBridge\Controller\CKFinderController::class, 'examplesAction'])
-    // ->name('ckfinder_examples');
-Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
-    ->name('ckfinder_connector');
-
-Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
-    ->name('ckfinder_browser');
+Route::get("popup", [FileManagerController::class,"index"])->name("filemanager");
+Route::group(['prefix' => 'laravel-filemanager', 'middleware'], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 Route::get('/', function () {
     return view('dashboard');

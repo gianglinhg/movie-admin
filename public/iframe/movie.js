@@ -1,8 +1,3 @@
-ClassicEditor
-  .create(document.querySelector('#ckeditor'))
-  .catch(error => {
-    console.error(error);
-  });
 $(document).ready(function () {
   $('input[name="name"]').on('keyup', function () {
     const slug = changeToSlug($(this).val());

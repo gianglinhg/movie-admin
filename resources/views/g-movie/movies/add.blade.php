@@ -39,15 +39,29 @@
             </div>
             <div class="form-group">
                 {!! Form::label('poster_url', 'Poster url') !!}
-                {!! Form::file('poster_url', ['id' => 'poster_url', 'class' => 'form-control']) !!}
+                <div class="input-group">
+                    {!! Form::text('poster_url', '', ['id' => 'thumb_url', 'class' => 'form-control']) !!}
+                    <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm">
+                        <i class="mdi mdi-folder-image"></i> Image
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 {!! Form::label('thumb_url', 'Thumb url') !!}
-                {!! Form::file('thumb_url', ['id' => 'thumb_url', 'class' => 'form-control']) !!}
+                <div class="input-group">
+                    {!! Form::text('thumb_url', '', ['id' => 'thumb_url', 'class' => 'form-control']) !!}
+                    <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm">
+                        <i class="mdi mdi-folder-image"></i> Image
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 {!! Form::label('content', 'Nội dung') !!}
-                {!! Form::textarea('content', '', ['id' => 'ckeditor', 'class' => 'form-control', 'placeholder' => 'Nội dung']) !!}
+                {!! Form::textarea('content', '', [
+                    'id' => 'myeditor',
+                    'class' => 'form-control my-editor',
+                    'placeholder' => 'Nội dung',
+                ]) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('notify', 'Thông báo / Ghi chú') !!}
@@ -176,7 +190,7 @@
         </div>
         <div class="tab-pane fade" id="episode-tab" role="tabpanel">
             <div class="input-group mb-3 w-50">
-                {{ Form::text('new-server-name','',['id' => 'new-server-name','class' => 'form-control','placeholder'=>'Thuyết minh #1'])}}
+                {{ Form::text('new-server-name', '', ['id' => 'new-server-name', 'class' => 'form-control', 'placeholder' => 'Thuyết minh #1']) }}
                 <span class="btn btn-success md:p-1 add-server-btn">Thêm mới</span>
                 {{-- <span class="btn btn-success md:p-1 md:d-none add-server-btn"><i class="mdi mdi-plus"></i></span> --}}
             </div>
@@ -212,18 +226,24 @@
                             </thead>
                             <tbody>
                                 <tr class="episode">
-                                    {!! Form::hidden('episodes[0][server]','Vietsub #1',['class' => 'episode-server', 'data-attr-name' => 'server']) !!}
+                                    {!! Form::hidden('episodes[0][server]', 'Vietsub #1', [
+                                        'class' => 'episode-server',
+                                        'data-attr-name' => 'server',
+                                    ]) !!}
                                     <td>
-                                        {!! Form::text('episodes[0][name]','1',['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
+                                        {!! Form::text('episodes[0][name]', '1', ['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
                                     </td>
                                     <td>
-                                        {!! Form::text('episodes[0][slug]','tap-1',['class' => 'ep_slug form-control', 'data-attr-name' => 'slug']) !!}
+                                        {!! Form::text('episodes[0][slug]', 'tap-1', ['class' => 'ep_slug form-control', 'data-attr-name' => 'slug']) !!}
                                     </td>
                                     <td>
-                                        {!! Form::select('episodes[0][type]', config('g-movie.type-video'), null, ['data-attr-name' => 'type', 'class' => 'form-control']) !!}
+                                        {!! Form::select('episodes[0][type]', config('g-movie.type-video'), null, [
+                                            'data-attr-name' => 'type',
+                                            'class' => 'form-control',
+                                        ]) !!}
                                     </td>
                                     <td>
-                                        {!! Form::text('episodes[0][link]','tap-1',['class' => 'form-control', 'data-attr-name' => 'link']) !!}
+                                        {!! Form::text('episodes[0][link]', 'tap-1', ['class' => 'form-control', 'data-attr-name' => 'link']) !!}
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-outline-danger delete-episode cursor-pointer">Xóa</button>
