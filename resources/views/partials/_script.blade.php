@@ -23,8 +23,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
-@include('ckfinder::setup')
 <script>
     var url = "{{ env('APP_URL') }}"
     toastr.options.rtl = true;
