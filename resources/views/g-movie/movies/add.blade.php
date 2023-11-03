@@ -40,8 +40,8 @@
             <div class="form-group">
                 {!! Form::label('poster_url', 'Poster url') !!}
                 <div class="input-group">
-                    {!! Form::text('poster_url', '', ['id' => 'thumb_url', 'class' => 'form-control']) !!}
-                    <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm">
+                    {!! Form::text('poster_url', '', ['id' => 'poster_url', 'class' => 'form-control']) !!}
+                    <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm-poster_url" data-input="poster_url">
                         <i class="mdi mdi-folder-image"></i> Image
                     </button>
                 </div>
@@ -50,7 +50,7 @@
                 {!! Form::label('thumb_url', 'Thumb url') !!}
                 <div class="input-group">
                     {!! Form::text('thumb_url', '', ['id' => 'thumb_url', 'class' => 'form-control']) !!}
-                    <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm">
+                    <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm-thumb_url" data-input="thumb_url">
                         <i class="mdi mdi-folder-image"></i> Image
                     </button>
                 </div>
@@ -192,7 +192,6 @@
             <div class="input-group mb-3 w-50">
                 {{ Form::text('new-server-name', '', ['id' => 'new-server-name', 'class' => 'form-control', 'placeholder' => 'Thuyết minh #1']) }}
                 <span class="btn btn-success md:p-1 add-server-btn">Thêm mới</span>
-                {{-- <span class="btn btn-success md:p-1 md:d-none add-server-btn"><i class="mdi mdi-plus"></i></span> --}}
             </div>
             <ul class="nav nav-tabs nav-line-tabs" id="episode-server-list">
                 <li class="nav-item">
@@ -278,10 +277,45 @@
     <button class="btn btn-light">Cancel</button>
     {!! Form::close() !!}
 @endsection
-@push('css')
-    <style>
-        .ck-editor__editable_inline {
-            min-height: 300px;
-        }
-    </style>
+@push('js')
+<script>
+    var route_prefix = "/filemanager";
+    {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
+    $('#lfm-poster_url').filemanager('image', {prefix: route_prefix});
+    $('#lfm-thumb_url').filemanager('image', {prefix: route_prefix});
+    var lfm = function(id, type, options) {
+      let button = document.getElementById(id);
+
+      button.addEventListener('click', function () {
+        var route_prefix = (options && options.prefix) ? options.prefix : '/filemanager';
+        var target_input = document.getElementById(button.getAttribute('data-input'));
+        var target_preview = document.getElementById(button.getAttribute('data-preview'));
+
+        window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
+        window.SetUrl = function (items) {
+          var file_path = items.map(function (item) {
+            return item.url;
+          }).join(',');
+
+          // set the value of the desired input to image url
+          target_input.value = file_path;
+          target_input.dispatchEvent(new Event('change'));
+
+          // clear previous preview
+          target_preview.innerHtml = '';
+
+          // set or change the preview image src
+          items.forEach(function (item) {
+            let img = document.createElement('img')
+            img.setAttribute('style', 'height: 5rem')
+            img.setAttribute('src', item.thumb_url)
+            target_preview.appendChild(img);
+          });
+
+          // trigger change event
+          target_preview.dispatchEvent(new Event('change'));
+        };
+      });
+    };
+  </script>
 @endpush

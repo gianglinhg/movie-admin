@@ -53,14 +53,3 @@ document.addEventListener('DOMContentLoaded', function(){
     window.close();
   })
 })
-document.addEventListener('DOMContentLoaded', function () {
-  var openFileManagerButton = document.getElementById('lfm');
-  openFileManagerButton.addEventListener('click', function () {
-    var width = 800; // Chiều rộng cửa sổ
-    var height = 600; // Chiều cao cửa sổ
-    var url = '/laravel-filemanager?type=Images'; // Đường dẫn tới Laravel File Manager
-
-    // Sử dụng window.open() để mở cửa sổ mới
-    window.open(url, 'LaravelFileManager', 'width=' + width + ', height=' + height);
-  });
-});
