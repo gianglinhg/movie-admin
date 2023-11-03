@@ -95,6 +95,8 @@ class MovieController extends Controller
             'type' => $request->type,
             'status' => $request->status,
             'trailer_url' => $request->trailer_url,
+            'thumb_url' => str_replace(app_url(), '', $request->thumb_url),
+            'poster_url' => str_replace(app_url(), '', $request->poster_url),
             'publish_year' => $request->publish_year,
             'quality' => $request->quality,
             'language' => $request->language,
@@ -198,6 +200,10 @@ class MovieController extends Controller
         ]);
         $movie = Movie::findOrFail($id);
         $data = $request->all();
+
+        $relative_path =
+
+
         $movie->update([
             'name' => $request->name,
             'origin_name' => $request->origin_name,
@@ -206,6 +212,8 @@ class MovieController extends Controller
             'type' => $request->type,
             'status' => $request->status,
             'trailer_url' => $request->trailer_url,
+            'thumb_url' => str_replace(app_url(), '', $request->thumb_url),
+            'poster_url' => str_replace(app_url(), '', $request->poster_url),
             'publish_year' => $request->publish_year,
             'quality' => $request->quality,
             'language' => $request->language,

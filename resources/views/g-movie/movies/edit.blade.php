@@ -40,7 +40,7 @@
             <div class="form-group">
                 {!! Form::label('poster_url', 'Poster url') !!}
                 <div class="input-group">
-                    {!! Form::text('poster_url', '', ['id' => 'poster_url', 'class' => 'form-control']) !!}
+                    {!! Form::text('poster_url', $movie->poster_url, ['id' => 'poster_url', 'class' => 'form-control']) !!}
                     <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm-poster_url" data-input="poster_url">
                         <i class="mdi mdi-folder-image"></i> Image
                     </button>
@@ -49,7 +49,7 @@
             <div class="form-group">
                 {!! Form::label('thumb_url', 'Thumb url') !!}
                 <div class="input-group">
-                    {!! Form::text('thumb_url', '', ['id' => 'thumb_url', 'class' => 'form-control']) !!}
+                    {!! Form::text('thumb_url', $movie->thumb_url, ['id' => 'thumb_url', 'class' => 'form-control']) !!}
                     <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm-thumb_url" data-input="thumb_url">
                         <i class="mdi mdi-folder-image"></i> Image
                     </button>
@@ -57,7 +57,7 @@
             </div>
             <div class="form-group">
                 {!! Form::label('content', 'Nội dung') !!}
-                {!! Form::textarea('content', $movie->content, ['id' => 'ckeditor', 'class' => 'form-control', 'placeholder' => 'Nội dung']) !!}
+                {!! Form::textarea('content', $movie->content, ['id' => 'ckeditor', 'class' => 'form-control my-editor', 'placeholder' => 'Nội dung']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('notify', 'Thông báo / Ghi chú') !!}

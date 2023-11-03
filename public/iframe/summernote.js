@@ -28,7 +28,7 @@ $(document).ready(function(){
 
   // Initialize summernote with LFM button in the popover button group
   // Please note that you can add this button to any other button group you'd like
-  $('#myeditor').summernote({
+  $('.my-editor').summernote({
     toolbar: [
       ['style', ['bold', 'italic', 'underline', 'clear']],
       ['font', ['strikethrough', 'superscript', 'subscript']],

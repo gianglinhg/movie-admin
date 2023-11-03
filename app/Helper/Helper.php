@@ -54,3 +54,12 @@ function checkSub(string $table, string $movie_id)
   return false;
 }
 }
+if (!function_exists('app_url')) {
+  function app_url(string $url = ''){
+    $domain = env('APP_URL');
+    if(empty($url)){
+      return $domain;
+    }
+    return $domain .''. $url;
+  }
+}
