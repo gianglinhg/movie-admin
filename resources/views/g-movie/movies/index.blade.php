@@ -68,15 +68,14 @@
             })
         })
         $('#movieTable').on('click', '._delete-movie', function() {
-            var confirm = confirm('Thao tác này sẽ xóa tất cả liên quan đến phim này ??');
-            if(confirm){
+            if (confirm('Thao tác này sẽ xóa tất cả liên quan đến phim này ??')) {
                 const id = $(this).data('id');
                 $.ajax({
                     url: '/movies/' + id,
                     type: 'DELETE',
                     dataType: 'json',
                     success: function(data) {
-                        if(data.status){
+                        if (data.status) {
                             toastr.success(data.msg);
                             $("#movieTable").DataTable().ajax.reload();
                         }

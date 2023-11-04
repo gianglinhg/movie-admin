@@ -39,27 +39,28 @@ if (!function_exists('addSub')) {
   }
 }
 if (!function_exists('deleteSub')) {
-function deleteSub(string $table, string $movie_id)
-{
-  DB::table($table)->where('movie_id', $movie_id)->delete();
-}
+  function deleteSub(string $table, string $movie_id)
+  {
+    DB::table($table)->where('movie_id', $movie_id)->delete();
+  }
 }
 if (!function_exists('checkSub')) {
-function checkSub(string $table, string $movie_id)
-{
-  $subs = DB::table($table)->where('movie_id', $movie_id)->get();
-  if($subs) {
-    return true;
-  }
-  return false;
-}
-}
-if (!function_exists('app_url')) {
-  function app_url(string $url = ''){
-    $domain = env('APP_URL');
-    if(empty($url)){
-      return $domain;
+  function checkSub(string $table, string $movie_id)
+  {
+    $subs = DB::table($table)->where('movie_id', $movie_id)->get();
+    if ($subs) {
+      return true;
     }
-    return $domain .''. $url;
+    return false;
+  }
+}
+if (!function_exists('asset_save')) {
+  function asset_save(string $image_url)
+  {
+    if (strpos($image_url, url('')) === 0) {
+        return substr($image_url, strlen(url('')));
+    } else {
+        return $image_url;
+    }
   }
 }

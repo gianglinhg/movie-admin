@@ -95,8 +95,8 @@ class MovieController extends Controller
             'type' => $request->type,
             'status' => $request->status,
             'trailer_url' => $request->trailer_url,
-            'thumb_url' => str_replace(app_url(), '', $request->thumb_url),
-            'poster_url' => str_replace(app_url(), '', $request->poster_url),
+            'thumb_url' => asset_save($request->thumb_url),
+            'poster_url' => asset_save($request->poster_url),
             'publish_year' => $request->publish_year,
             'quality' => $request->quality,
             'language' => $request->language,
@@ -111,6 +111,11 @@ class MovieController extends Controller
             'user_name' => Auth::user()->name,
         ]);
         if ($movie) {
+            if (isset($data['episodes']) && !empty($data['episodes'])) {
+                foreach ($data['episodes'] as $episode) {
+                    $movie->addEpisode($episode, $movie->id);
+                }
+            }
             if (isset($data['categories']) && !empty($data['categories'])) {
                 addSub('category_movie',$data['categories'], $movie->id, 'category_id');
             }
@@ -144,11 +149,9 @@ class MovieController extends Controller
      */
     public function edit(string $id)
     {
-        $movie = Movie::where('id', $id)->first();
+        $movie = Movie::findOrFail($id);
         $data = [];
-        $directors = [];
-        $actors = [];
-        $tags = [];
+        $directors = $actors = $tags = [];
         foreach ($movie->directors as $director) {
             $directors[$director->id] = $director->name;
         }
@@ -171,7 +174,6 @@ class MovieController extends Controller
         $data['movie'] = $movie;
         $episodes = Episode::where('movie_id', $movie->id)->get()->toArray();
         $episodes_serve = $server = [];
-        $name_fake = '';
         foreach ($episodes as $item) {
             $server_name = $item['server'];
             if(!in_array($server_name, $server)){
@@ -201,9 +203,6 @@ class MovieController extends Controller
         $movie = Movie::findOrFail($id);
         $data = $request->all();
 
-        $relative_path =
-
-
         $movie->update([
             'name' => $request->name,
             'origin_name' => $request->origin_name,
@@ -212,8 +211,8 @@ class MovieController extends Controller
             'type' => $request->type,
             'status' => $request->status,
             'trailer_url' => $request->trailer_url,
-            'thumb_url' => str_replace(app_url(), '', $request->thumb_url),
-            'poster_url' => str_replace(app_url(), '', $request->poster_url),
+            'thumb_url' => asset_save($request->thumb_url),
+            'poster_url' => asset_save($request->poster_url),
             'publish_year' => $request->publish_year,
             'quality' => $request->quality,
             'language' => $request->language,
@@ -229,10 +228,7 @@ class MovieController extends Controller
         ]);
         if ($movie) {
             if (isset($data['episodes']) && !empty($data['episodes'])) {
-                deleteSub('episodes',$movie->id);
-                foreach ($data['episodes'] as $episode) {
-                    $movie->addEpisode($episode, $movie->id);
-                }
+                $this->handle_episodes($data['episodes'], $movie->id);
             }
             if (isset($data['categories']) && !empty($data['categories'])) {
                 deleteSub('category_movie',$movie->id);

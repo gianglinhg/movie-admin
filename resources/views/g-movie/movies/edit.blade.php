@@ -40,7 +40,7 @@
             <div class="form-group">
                 {!! Form::label('poster_url', 'Poster url') !!}
                 <div class="input-group">
-                    {!! Form::text('poster_url', $movie->poster_url, ['id' => 'poster_url', 'class' => 'form-control']) !!}
+                    {!! Form::text('poster_url', asset($movie->poster_url), ['id' => 'poster_url', 'class' => 'form-control']) !!}
                     <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm-poster_url" data-input="poster_url">
                         <i class="mdi mdi-folder-image"></i> Image
                     </button>
@@ -49,7 +49,7 @@
             <div class="form-group">
                 {!! Form::label('thumb_url', 'Thumb url') !!}
                 <div class="input-group">
-                    {!! Form::text('thumb_url', $movie->thumb_url, ['id' => 'thumb_url', 'class' => 'form-control']) !!}
+                    {!! Form::text('thumb_url', asset($movie->thumb_url), ['id' => 'thumb_url', 'class' => 'form-control']) !!}
                     <button type="button" class="btn btn-light btn-icon-text input-group-text" id="lfm-thumb_url" data-input="thumb_url">
                         <i class="mdi mdi-folder-image"></i> Image
                     </button>
@@ -193,8 +193,7 @@
             <ul class="nav nav-tabs nav-line-tabs" id="episode-server-list">
                     @foreach($server as $key => $item)
                         <li class="nav-item">
-                            <a class="nav-link {{ $key == 0 ? 'active' : '' }}" data-bs-toggle="tab" href="#episode-server-{{$key}}" aria-selected="true"
-                        contenteditable onblur="updateEpisodeServer(this)">{{$item}}</a>
+                            <a class="nav-link {{ $key == 0 ? 'active' : '' }}" data-bs-toggle="tab" href="#episode-server-{{$key}}" aria-selected="true" contenteditable onblur="updateEpisodeServer(this)">{{$item}}</a>
                         </li>
                     @endforeach
             </ul>
@@ -227,7 +226,8 @@
                             <tbody>
                                 @foreach($episodes_serve[$key] as $stt => $item)
                                     <tr class="episode">
-                                        {!! Form::hidden('episodes['.$key.'][server]',$item['server'],['class' => 'episode-server', 'data-attr-name' => 'server']) !!}
+                                        {!! Form::hidden('episodes['.$key.'][id]',$item['id'],['data-attr-name' => 'id']) !!}
+                                        {!! Form::hidden('episodes['.$key.'][server]',$item['server'],['data-attr-name' => 'server']) !!}
                                         <td>
                                             {!! Form::text('episodes['.$key.'][name]',$item['name'],['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
                                         </td>
@@ -273,7 +273,7 @@
         </div>
     </div>
     <button type="submit" class="btn btn-primary me-2">Submit</button>
-    <button class="btn btn-light">Cancel</button>
+    <button type="reset" class="btn btn-warning">Reset</button>
     {!! Form::close() !!}
 @endsection
 @push('js')
