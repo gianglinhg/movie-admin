@@ -226,19 +226,19 @@
                             <tbody>
                                 @foreach($episodes_serve[$key] as $stt => $item)
                                     <tr class="episode">
-                                        {!! Form::hidden('episodes['.$key.'][id]',$item['id'],['data-attr-name' => 'id']) !!}
-                                        {!! Form::hidden('episodes['.$key.'][server]',$item['server'],['data-attr-name' => 'server']) !!}
+                                        {!! Form::hidden('episodes['.$stt.'][id]',$item['id'],['data-attr-name' => 'id']) !!}
+                                        {!! Form::hidden('episodes['.$stt.'][server]',$item['server'],['data-attr-name' => 'server']) !!}
                                         <td>
-                                            {!! Form::text('episodes['.$key.'][name]',$item['name'],['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
+                                            {!! Form::text('episodes['.$stt.'][name]',$item['name'],['class' => 'ep_name form-control', 'data-attr-name' => 'name']) !!}
                                         </td>
                                         <td>
-                                            {!! Form::text('episodes['.$key.'][slug]',$item['slug'],['class' => 'ep_slug form-control', 'data-attr-name' => 'slug']) !!}
+                                            {!! Form::text('episodes['.$stt.'][slug]',$item['slug'],['class' => 'ep_slug form-control', 'data-attr-name' => 'slug']) !!}
                                         </td>
                                         <td>
-                                            {!! Form::select('episodes['.$key.'][type]', config('g-movie.type-video'), null, ['data-attr-name' => 'type', 'class' => 'form-control']) !!}
+                                            {!! Form::select('episodes['.$stt.'][type]', config('g-movie.type-video'), null, ['data-attr-name' => 'type', 'class' => 'form-control']) !!}
                                         </td>
                                         <td>
-                                            {!! Form::text('episodes['.$key.'][link]',$item['link'],['class' => 'form-control', 'data-attr-name' => 'link']) !!}
+                                            {!! Form::text('episodes['.$stt.'][link]',$item['link'],['class' => 'form-control', 'data-attr-name' => 'link']) !!}
                                         </td>
                                         <td class="text-center">
                                             <button class="btn btn-outline-danger delete-episode cursor-pointer">Xóa</button>

@@ -16,17 +16,28 @@ class Controller extends BaseController
         foreach ($episodes as $episode) {
             $episodeId = $episode['id'];
 
-            $episode = Episode::updateOrCreate(
-                ['id' => $episodeId],
-                [
+            if (in_array($episodeId, $movie_episodes)) {
+                // Cập nhật
+                $existingEpisode = Episode::where('id', $episodeId)->first();
+                $existingEpisode->update([
+                    'server' => $episode['server'],
+                    'name' => $episode['name'],
+                    'slug' => $episode['slug'],
+                    'type' => $episode['type'],
+                    'link' => $episode['link'],
+                ]);
+            } else {
+                // Thêm mới
+                Episode::create([
+                    'id' => $episodeId,
                     'movie_id' => $movie_id,
                     'server' => $episode['server'],
                     'name' => $episode['name'],
                     'slug' => $episode['slug'],
                     'type' => $episode['type'],
                     'link' => $episode['link'],
-                ]
-            );
+                ]);
+            }
 
             // Loại bỏ episode này khỏi danh sách $movie_episodes
             $movie_episodes = array_diff($movie_episodes, [$episodeId]);

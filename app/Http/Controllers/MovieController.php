@@ -71,6 +71,9 @@ class MovieController extends Controller
         $data['route_list'] = route('movies.index');
         $data['categories'] = DB::table('categories')->get();
         $data['regions'] = DB::table('regions')->get();
+        $data['actors'] = get_select_array(DB::table('actors')->latest()->get());
+        $data['directors'] = get_select_array(DB::table('directors')->oldest()->get());
+        $data['tags'] = get_select_array(DB::table('tags')->latest()->get());
         $data['title'] = 'Thêm mới phim';
         return view('g-movie.movies.add', $data);
     }
@@ -110,26 +113,30 @@ class MovieController extends Controller
             'user_id' => Auth::id(),
             'user_name' => Auth::user()->name,
         ]);
+        $movie_id = $movie->id;
         if ($movie) {
             if (isset($data['episodes']) && !empty($data['episodes'])) {
                 foreach ($data['episodes'] as $episode) {
-                    $movie->addEpisode($episode, $movie->id);
+                    $movie->addEpisode($episode, $movie_id);
                 }
             }
             if (isset($data['categories']) && !empty($data['categories'])) {
-                addSub('category_movie',$data['categories'], $movie->id, 'category_id');
+                addSub('category_movie',$data['categories'], $movie_id, 'category_id');
             }
             if (isset($data['regions']) && !empty($data['regions'])) {
-                addSub('movie_region',$data['regions'], $movie->id, 'region_id');
+                addSub('movie_region',$data['regions'], $movie_id, 'region_id');
             }
             if (isset($data['directors']) && !empty($data['directors'])) {
-                addSub('director_movie',$data['directors'], $movie->id, 'director_id');
+                $directors = add_sub_tag('directors', $data['directors'], Carbon::now());
+                addSub('director_movie',$directors, $movie_id, 'director_id');
             }
             if (isset($data['actors']) && !empty($data['actors'])) {
-                addSub('actor_movie',$data['actors'], $movie->id, 'actor_id');
+                $actors = add_sub_tag('actors', $data['actors'], Carbon::now());
+                addSub('actor_movie', $actors, $movie_id, 'actor_id');
             }
             if (isset($data['tags']) && !empty($data['tags'])) {
-                addSub('movie_tag',$data['tags'], $movie->id, 'tag_id');
+                $tags = add_sub_tag('tags', $data['tags'], Carbon::now());
+                addSub('movie_tag', $tags, $movie_id, 'tag_id');
             }
         }
         toastr('Tạo phim mới thành công', 'success');
@@ -141,7 +148,9 @@ class MovieController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $movie = Movie::find($id);
+        $episodes = DB::table('episodes')->where('movie_id',$movie->id)->orderByRaw("CASE WHEN slug REGEXP '^[0-9]+$' THEN LENGTH(slug) ELSE 99999 END, slug ASC")->get();
+        return view('g-movie.movies.show', compact('movie','episodes'));
     }
 
     /**
@@ -149,18 +158,8 @@ class MovieController extends Controller
      */
     public function edit(string $id)
     {
-        $movie = Movie::findOrFail($id);
         $data = [];
-        $directors = $actors = $tags = [];
-        foreach ($movie->directors as $director) {
-            $directors[$director->id] = $director->name;
-        }
-        foreach ($movie->actors as $actor) {
-            $actors[$actor->id] = $actor->name;
-        }
-        foreach ($movie->tags as $tag) {
-            $tags[$tag->id] = $tag->name;
-        }
+        $movie = Movie::findOrFail($id);
         $data['route_list'] = route('movies.index');
         $data['categories'] = DB::table('categories')->get();
         $data['regions'] = DB::table('regions')->get();
@@ -168,11 +167,13 @@ class MovieController extends Controller
         $data['movie_regions'] = $movie->regions->pluck('id')->toArray();
         $data['movie_directors'] = $movie->directors->pluck('name')->toArray();
         $data['title'] = 'Sửa ' . $movie->name;
-        $data['tags'] = $tags;
-        $data['actors'] = $actors;
-        $data['directors'] = $directors;
+        $data['tags'] = get_select_array($movie->directors);
+        $data['actors'] = get_select_array($movie->actors);
+        $data['directors'] = get_select_array($movie->directors);
         $data['movie'] = $movie;
-        $episodes = Episode::where('movie_id', $movie->id)->get()->toArray();
+        $episodes = Episode::where('movie_id', $movie->id)
+        ->orderByRaw("CASE WHEN slug REGEXP '^[0-9]+$' THEN LENGTH(slug) ELSE 99999 END, slug ASC")
+        ->get()->toArray();
         $episodes_serve = $server = [];
         foreach ($episodes as $item) {
             $server_name = $item['server'];

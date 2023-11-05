@@ -38,6 +38,29 @@ if (!function_exists('addSub')) {
     }
   }
 }
+if (!function_exists('add_sub_tag')) {
+  function add_sub_tag(string $table, array $data, string $time)
+  {
+    $output = [];
+    $ids = DB::table('directors')->pluck('name')->toArray();
+    if (isset($data) && !empty($data)) {
+      foreach( $data as $item) {
+        if(!in_array($item, $ids)) {
+          DB::table($table)->insert([
+            'name' => $item,
+            'slug' => \Str::slug($item),
+            'name_md5' => md5($item),
+            'created_at' => $time,
+            'updated_at' => $time,
+          ]);
+          $sub_tag = DB::table($table)->where('slug', \Str::slug($item))->first();
+          $output[] = $sub_tag->id;
+        }
+      }
+    }
+    return $output;
+  }
+}
 if (!function_exists('deleteSub')) {
   function deleteSub(string $table, string $movie_id)
   {
@@ -62,5 +85,15 @@ if (!function_exists('asset_save')) {
     } else {
         return $image_url;
     }
+  }
+}
+if (!function_exists('get_select_array')) {
+  function get_select_array($data)
+  {
+    $out = [];
+    foreach ($data as $value) {
+      $out[$value->id] = $value->name;
+    }
+    return $out;
   }
 }
