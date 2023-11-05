@@ -30,7 +30,7 @@
                     },
                     {
                         render: function(data, type, row) {
-                            return `<img src="${row.poster_url}" alt="${row.slug}">`
+                            return `<img src="${row.thumb_url}" alt="${row.slug}">`
                         }
                     },
                     {

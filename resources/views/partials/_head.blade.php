@@ -38,5 +38,8 @@
   border: 1px solid #333;
   border-radius: 5px;
 }
+.content-wrapper{
+  padding: 2rem 2rem 0 2rem;
+}
 </style>
 @stack('css')

@@ -241,15 +241,18 @@ class MovieController extends Controller
             }
             if (isset($data['directors']) && !empty($data['directors'])) {
                 deleteSub('director_movie',$movie->id);
-                addSub('director_movie',$data['directors'], $movie->id, 'director_id');
+                $directors = add_sub_tag('directors', $data['directors'], Carbon::now());
+                addSub('director_movie',$directors, $movie->id, 'director_id');
             }
             if (isset($data['actors']) && !empty($data['actors'])) {
                 deleteSub('actor_movie',$movie->id);
-                addSub('actor_movie',$data['actors'], $movie->id, 'actor_id');
+                $actors = add_sub_tag('actors', $data['actors'], Carbon::now());
+                addSub('actor_movie',$actors, $movie->id, 'actor_id');
             }
             if (isset($data['tags']) && !empty($data['tags'])) {
                 deleteSub('movie_tag',$movie->id);
-                addSub('movie_tag',$data['tags'], $movie->id, 'tag_id');
+                $tags = add_sub_tag('tags', $data['tags'], Carbon::now());
+                addSub('movie_tag',$tags, $movie->id, 'tag_id');
             }
         }
         toastr('Cập nhật phim mới thành công', 'success');
