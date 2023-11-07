@@ -173,15 +173,15 @@
             </div>
             <div class="form-group">
                 {!! Form::label('name', 'Đạo diễn') !!}
-                {!! Form::select('directors[]', $directors, true, ['class' => 'form-select', 'id' => 'directors', 'multiple' => 1]) !!}
+                {!! Form::select('directors[]', $directors, $movie->directors, ['class' => 'form-select', 'id' => 'directors', 'multiple' => 1]) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('name', 'Diễn viên') !!}
-                {!! Form::select('actors[]', $actors, true, ['class' => 'form-select', 'id' => 'actors', 'multiple' => 1]) !!}
+                {!! Form::select('actors[]', $actors, $movie->actors, ['class' => 'form-select', 'id' => 'actors', 'multiple' => 1]) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('name', 'Tags') !!}
-                {!! Form::select('tags[]', $tags, true, ['class' => 'form-select', 'id' => 'tags', 'multiple' => 1]) !!}
+                {!! Form::select('tags[]', $tags, $movie->tags, ['class' => 'form-select', 'id' => 'tags', 'multiple' => 1]) !!}
             </div>
         </div>
         <div class="tab-pane fade" id="episode-tab" role="tabpanel">

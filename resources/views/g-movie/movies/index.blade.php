@@ -54,14 +54,14 @@
                         render: function(data, type, row) {
                             return `
                         <a href="movies/${row.id}/edit">
-            <button class="btn btn-inverse-primary btn-rounded btn-icon">
-                <i class="mdi mdi-grease-pencil"></i>
-                </button>
-                </a>
-            <button class="btn btn-inverse-danger btn-rounded btn-icon _delete-movie" data-id=${row.id}>
-                <i class="mdi mdi-delete"></i>
-            </button>
-            `
+                            <button class="btn btn-inverse-primary btn-rounded btn-icon">
+                                <i class="mdi mdi-grease-pencil"></i>
+                            </button>
+                        </a>
+                        <button class="btn btn-inverse-danger btn-rounded btn-icon _delete-movie" data-id="${row.id}">
+                            <i class="mdi mdi-delete"></i>
+                        </button>
+                        `
                         }
                     },
                 ],

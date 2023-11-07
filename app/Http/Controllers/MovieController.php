@@ -167,9 +167,9 @@ class MovieController extends Controller
         $data['movie_regions'] = $movie->regions->pluck('id')->toArray();
         $data['movie_directors'] = $movie->directors->pluck('name')->toArray();
         $data['title'] = 'Sửa ' . $movie->name;
-        $data['tags'] = get_select_array($movie->directors);
-        $data['actors'] = get_select_array($movie->actors);
-        $data['directors'] = get_select_array($movie->directors);
+        $data['tags'] = get_select_array(DB::table('tags')->get());
+        $data['actors'] = get_select_array(DB::table('actors')->get());
+        $data['directors'] = get_select_array(DB::table('directors')->get());
         $data['movie'] = $movie;
         $episodes = Episode::where('movie_id', $movie->id)
         ->orderByRaw("CASE WHEN slug REGEXP '^[0-9]+$' THEN LENGTH(slug) ELSE 99999 END, slug ASC")
@@ -203,7 +203,6 @@ class MovieController extends Controller
         ]);
         $movie = Movie::findOrFail($id);
         $data = $request->all();
-
         $movie->update([
             'name' => $request->name,
             'origin_name' => $request->origin_name,
@@ -239,21 +238,9 @@ class MovieController extends Controller
                 deleteSub('movie_region',$movie->id);
                 addSub('movie_region',$data['regions'], $movie->id, 'region_id');
             }
-            if (isset($data['directors']) && !empty($data['directors'])) {
-                deleteSub('director_movie',$movie->id);
-                $directors = add_sub_tag('directors', $data['directors'], Carbon::now());
-                addSub('director_movie',$directors, $movie->id, 'director_id');
-            }
-            if (isset($data['actors']) && !empty($data['actors'])) {
-                deleteSub('actor_movie',$movie->id);
-                $actors = add_sub_tag('actors', $data['actors'], Carbon::now());
-                addSub('actor_movie',$actors, $movie->id, 'actor_id');
-            }
-            if (isset($data['tags']) && !empty($data['tags'])) {
-                deleteSub('movie_tag',$movie->id);
-                $tags = add_sub_tag('tags', $data['tags'], Carbon::now());
-                addSub('movie_tag',$tags, $movie->id, 'tag_id');
-            }
+            $this->handle_tags($request->directors,['name' => 'director_movie', 'col' => 'director_id','main' => 'directors'], $movie->id);
+            $this->handle_tags($request->tags,['name' => 'movie_tag', 'col' => 'tag_id', 'main' => 'tags'], $movie->id);
+            $this->handle_tags($request->actors,['name' => 'actor_movie', 'col' => 'actor_id', 'main' => 'actors'], $movie->id);
         }
         toastr('Cập nhật phim mới thành công', 'success');
         return redirect()->back();
