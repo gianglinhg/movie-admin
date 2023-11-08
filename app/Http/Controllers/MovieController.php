@@ -98,8 +98,8 @@ class MovieController extends Controller
             'type' => $request->type,
             'status' => $request->status,
             'trailer_url' => $request->trailer_url,
-            'thumb_url' => asset_save($request->thumb_url),
-            'poster_url' => asset_save($request->poster_url),
+            'thumb_url' => asset_save($request->thumb_url ? $request->thumb_url : ''),
+            'poster_url' => asset_save($request->poster_url ? $request->poster_url :''),
             'publish_year' => $request->publish_year,
             'quality' => $request->quality,
             'language' => $request->language,
@@ -126,18 +126,9 @@ class MovieController extends Controller
             if (isset($data['regions']) && !empty($data['regions'])) {
                 addSub('movie_region',$data['regions'], $movie_id, 'region_id');
             }
-            if (isset($data['directors']) && !empty($data['directors'])) {
-                $directors = add_sub_tag('directors', $data['directors'], Carbon::now());
-                addSub('director_movie',$directors, $movie_id, 'director_id');
-            }
-            if (isset($data['actors']) && !empty($data['actors'])) {
-                $actors = add_sub_tag('actors', $data['actors'], Carbon::now());
-                addSub('actor_movie', $actors, $movie_id, 'actor_id');
-            }
-            if (isset($data['tags']) && !empty($data['tags'])) {
-                $tags = add_sub_tag('tags', $data['tags'], Carbon::now());
-                addSub('movie_tag', $tags, $movie_id, 'tag_id');
-            }
+            $this->handle_tags($request->directors,['name' => 'director_movie', 'col' => 'director_id','main' => 'directors'], $movie->id);
+            $this->handle_tags($request->tags,['name' => 'movie_tag', 'col' => 'tag_id', 'main' => 'tags'], $movie->id);
+            $this->handle_tags($request->actors,['name' => 'actor_movie', 'col' => 'actor_id', 'main' => 'actors'], $movie->id);
         }
         toastr('Tạo phim mới thành công', 'success');
         return redirect()->route('movies.index');
@@ -211,8 +202,8 @@ class MovieController extends Controller
             'type' => $request->type,
             'status' => $request->status,
             'trailer_url' => $request->trailer_url,
-            'thumb_url' => asset_save($request->thumb_url),
-            'poster_url' => asset_save($request->poster_url),
+            'thumb_url' => asset_save($request->thumb_url ? $request->thumb_url : ''),
+            'poster_url' => asset_save($request->thumb_url ? $request->poster_url : ''),
             'publish_year' => $request->publish_year,
             'quality' => $request->quality,
             'language' => $request->language,

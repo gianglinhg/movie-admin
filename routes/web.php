@@ -19,6 +19,7 @@ use App\Http\Controllers\FileManagerController;
 // vendor/ckfinder/ckfinder-laravel-package/src/routes.php
 
 // Route::get("popup", [FileManagerController::class,"index"])->name("filemanager");
+Route::get("api", [FileManagerController::class,"api"])->name("filemanager");
 Route::group(['prefix' => 'laravel-filemanager', 'middleware'], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });

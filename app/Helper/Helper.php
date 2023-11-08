@@ -55,13 +55,16 @@ if (!function_exists('checkSub')) {
   }
 }
 if (!function_exists('asset_save')) {
-  function asset_save(string $image_url)
+  function asset_save(string $image_url = "")
   {
-    if (strpos($image_url, url('')) === 0) {
-        return substr($image_url, strlen(url('')));
-    } else {
-        return $image_url;
+    if(!empty($image_url)) {
+      if (strpos($image_url, url('')) === 0) {
+          return substr($image_url, strlen(url('')));
+      } else {
+          return $image_url;
+      }
     }
+    return "";
   }
 }
 if (!function_exists('get_select_array')) {

@@ -6,8 +6,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Episode;
+use App\Models\Movie;
 use Carbon\Carbon;
 use DB;
+use Auth;
 
 class Controller extends BaseController
 {
@@ -76,5 +78,52 @@ class Controller extends BaseController
             }
         }
         DB::table($table_name)->where('movie_id', $movie_id)->whereIn($table_col, $tags)->delete();
+    }
+
+    public function store_movie(array $data)
+    {
+
+        $movie = Movie::create([
+            'name' => $data['name'],
+            'origin_name' => $data['origin_name'],
+            'slug' => $data['slug'],
+            'content' => $data['content'],
+            'type' => $data['type'],
+            'status' => $data['status'],
+            'trailer_url' => $data['trailer_url'],
+            'thumb_url' => asset_save($data['thumb_url']),
+            'poster_url' => asset_save($data['poster_url']),
+            'publish_year' => $data['publish_year'],
+            'quality' => $data['quality'],
+            'language' => $data['language'],
+            'episode_time' => $data['episode_time'],
+            'episode_total' => $data['episode_total'],
+            'episode_current' => $data['episode_current'],
+            'is_shown_in_theater' => $data['is_shown_in_theater'] ?? 0,
+            'is_recommended' => $data['is_recommended ?? 0'],
+            'is_copyright' => $data['is_copyright ?? 0'],
+            'is_sensitive_content' => $data['is_sensitive_content'] ?? 0,
+            'user_id' => Auth::id(),
+            'user_name' => Auth::user()->name,
+        ]);
+        $movie_id = $movie->id;
+        if ($movie) {
+            if (isset($data['episodes']) && !empty($data['episodes'])) {
+                foreach ($data['episodes'] as $episode) {
+                    $movie->addEpisode($episode, $movie_id);
+                }
+            }
+            if (isset($data['categories']) && !empty($data['categories'])) {
+                addSub('category_movie',$data['categories'], $movie_id, 'category_id');
+            }
+            if (isset($data['regions']) && !empty($data['regions'])) {
+                addSub('movie_region',$data['regions'], $movie_id, 'region_id');
+            }
+            $this->handle_tags($data['directors'],['name' => 'director_movie', 'col' => 'director_id','main' => 'directors'], $movie->id);
+            $this->handle_tags($data['tags'],['name' => 'movie_tag', 'col' => 'tag_id', 'main' => 'tags'], $movie->id);
+            $this->handle_tags($data['actors'],['name' => 'actor_movie', 'col' => 'actor_id', 'main' => 'actors'], $movie->id);
+        }
+        toastr('Tạo phim mới thành công', 'success');
+        return redirect()->route('movies.index');
     }
 }
