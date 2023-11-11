@@ -9,7 +9,7 @@ use App\Http\Controllers\FileManagerController;
 
 
 // Route::get("popup", [FileManagerController::class,"index"])->name("filemanager");
-Route::get("api", [FileManagerController::class,"api"])->name("filemanager");
+// Route::get("api", [FileManagerController::class,"api"])->name("filemanager");
 Route::group(['prefix' => 'laravel-filemanager', 'middleware'], function () {
     Lfm::routes();
 });
