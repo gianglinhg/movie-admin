@@ -1,31 +1,21 @@
 <?php
 
+use UniSharp\LaravelFilemanager\Lfm;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FileManagerController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-// vendor/ckfinder/ckfinder-laravel-package/src/routes.php
 
 // Route::get("popup", [FileManagerController::class,"index"])->name("filemanager");
 Route::get("api", [FileManagerController::class,"api"])->name("filemanager");
 Route::group(['prefix' => 'laravel-filemanager', 'middleware'], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
+    Lfm::routes();
 });
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('g-movie.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

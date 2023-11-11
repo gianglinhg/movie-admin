@@ -13,4 +13,5 @@
 
 Route::prefix('crawler')->group(function() {
     Route::get('/', 'CrawlerController@index');
+    Route::get('/api', 'CrawlerController@api');
 });

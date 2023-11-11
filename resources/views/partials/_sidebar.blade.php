@@ -41,7 +41,7 @@
     <li class="nav-item">
       <a class="nav-link" href="#">
         <span class="icon-bg"><i class="mdi mdi-contacts menu-icon"></i></span>
-        <span class="menu-title">Menu</span>
+        <span class="menu-title">Crawler</span>
       </a>
     </li>
     <li class="nav-item">
