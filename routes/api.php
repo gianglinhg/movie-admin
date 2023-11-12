@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +18,10 @@ use App\Http\Controllers\Api\AuthController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class,'me']);
     Route::post('/logout', [AuthController::class,'logout']);
+
+    Route::get('/phim/{slug}', [ApiController::class,'get_movie']);
+    Route::get('/the-loai/{slug}', [ApiController::class,'get_movie_by_category']);
+    Route::get('/khu-vuc/{slug}', [ApiController::class,'get_movie_by_region']);
 });
 
 Route::prefix('auth')->group(function () {

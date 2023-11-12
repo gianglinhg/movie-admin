@@ -14,6 +14,7 @@ class AuthController extends Controller
 {
     public function login(Request $request){
         $user = User::where("email", $request->email)->first();
+        // return response()->json($user);
         if(!$user || !Hash::check($request->password,$user->password, [])){
             return response()->json([
                 "messages"=> "User không tồn tại"
