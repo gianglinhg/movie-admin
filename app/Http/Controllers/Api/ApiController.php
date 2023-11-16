@@ -145,14 +145,15 @@ class ApiController extends Controller
         $items = $request->get('total');
         $total = (isset($items) && (int)$items > 0) ? (int)$items : 100;
         $movies = Movie::select('id','name','origin_name', 'slug','thumb_url','poster_url', 'created_at')->latest()->take($total)->get();
-        foreach($movies as $movie){
-            $res[$movie->id]['id'] =  $movie['id'];
-            $res[$movie->id]['name'] =  $movie['name'];
-            $res[$movie->id]['origin_name'] =  $movie['origin_name'];
-            $res[$movie->id]['thumb_url'] =  $movie['thumb_url'];
-            $res[$movie->id]['poster_url'] =  $movie['poster_url'];
-            $res[$movie->id]['created_at'] =  Carbon::parse($movie['created_at'])->format('d-m-Y H:i:s');
-        }
-        return response()->json($res, 200);
+        // foreach($movies as $movie){
+        //     $res[$movie->id]['id'] =  $movie['id'];
+        //     $res[$movie->id]['name'] =  $movie['name'];
+        //     $res[$movie->id]['slug'] =  $movie['slug'];
+        //     $res[$movie->id]['origin_name'] =  $movie['origin_name'];
+        //     $res[$movie->id]['thumb_url'] =  $movie['thumb_url'];
+        //     $res[$movie->id]['poster_url'] =  $movie['poster_url'];
+        //     $res[$movie->id]['created_at'] =  Carbon::parse($movie['created_at'])->format('d-m-Y H:i:s');
+        // }
+        return response()->json($movies, 200);
     }
 }
