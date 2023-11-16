@@ -34,7 +34,5 @@ Route::get('/the-loai', [ApiController::class,'get_all_categories']);
 Route::get('/khu-vuc', [ApiController::class,'get_all_regions']);
 
 
-Route::prefix('auth')->group(function () {
-    Route::post('/login', [AuthController::class,'login'])->name('login');
-    Route::post('/register', [AuthController::class,'register'])->name('register');
-});
+Route::post('/login', [AuthController::class,'login'])->name('login');
+Route::post('/register', [AuthController::class,'register'])->name('register');
