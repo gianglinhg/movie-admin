@@ -11,26 +11,42 @@
                 <th>Lượt xem</th>
                 <th>Hành động</th>
             </tr>
-
+            <a href=""></a>
         </thead>
     </table>
+    <nav aria-label="Page navigation example" id="pagination">
+        <ul class="pagination">
+            {{-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li> --}}
+        </ul>
+    </nav>
+    {{-- {{ $movie->links() }} --}}
 @endsection
 @push('js')
     <script>
         $(document).ready(function() {
 
             var table = initDataTable('#movieTable', {
+                "ajax": {
+                    "url": "/movies",
+                    "type": "GET",
+                    "data": function (d) {
+                        d.page = (d.start / d.length) + 1; // Tính toán trang hiện tại
+                    }
+                },
                 columns: [{
                         "data": "name",
                         "name": "name",
                         render: function(data, type, row) {
-                            return $("<div>").html(data)
-                                .text(); // Đảm bảo rằng HTML được hiển thị mà không bị xử lý
+                            return $("<div>").html(data).text(); // Đảm bảo rằng HTML được hiển thị mà không bị xử lý
                         }
                     },
                     {
                         render: function(data, type, row) {
-                            return `<img src="${row.thumb_url}" alt="${row.slug}">`
+                            return `<a href="${row.thumb_url}" target="_blank"><img src="${row.thumb_url}" alt="${row.slug}"></a>`
                         }
                     },
                     {

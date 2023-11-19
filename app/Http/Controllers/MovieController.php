@@ -5,7 +5,6 @@ use App\Models\Movie;
 use App\Models\Episode;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use Carbon\Carbon;
 use DB;
 use Auth;
 
@@ -19,12 +18,18 @@ class MovieController extends Controller
         $data = [];
         $data['title'] = 'Danh sách phim';
         $data['route_new'] = route("movies.create");
-        $movies = Movie::query()
+        if (request()->ajax()) {
+            $draw = request()->draw;
+            $page_size = request()->length > 0 ? request()->length : 10;
+            $start = !empty(request()->start) ? request()->start :1;
+            $page = !empty(request()->page) ? request()->page :1;
+            $search = request()->search;
+            $movies = Movie::query()
             ->join('users', 'users.id', '=', 'movies.user_id')
             ->select('movies.*', 'users.name as user_name')
-            ->get();
-        if (request()->ajax()) {
-            return Datatables::of($movies)
+            ->paginate($page_size,['*'],'page',(int)($start/$page_size) + 1);
+            $movie_item = $movies->items();
+            return Datatables::of($movie_item)
                 ->addColumn('user_name', function ($row) {
                     return $row->user_name;
                 })
@@ -56,9 +61,13 @@ class MovieController extends Controller
                 ->addColumn('region_name', function ($row) {
                     return $row->regions->pluck('name')->implode(', ');
                 })
+                ->with([
+                    'draw' => $draw,
+                    'recordsTotal' => Movie::count(),
+                    'recordsFiltered' => Movie::count(),
+                ])
                 ->toJson();
-        }
-        $data['movies'] = $movies;
+            }
         return view('g-movie.movies.index', $data);
     }
 
