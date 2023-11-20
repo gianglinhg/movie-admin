@@ -113,6 +113,10 @@ class ApiController extends Controller
         $regions = Region::select('id', 'name', 'slug')->get();
         return response()->json($regions, 200);
     }
+    public function get_all_year(){
+        $years = Movie::select('publish_year')->distinct()->orderBy('publish_year','desc')->pluck('publish_year')->toArray();
+        return response()->json($years, 200);
+    }
     public function get_actor_movie(string $slug){
         $actor = Actor::where('slug', $slug)->first();
         if(!$actor) return $this->api_model->check_object($actor);
@@ -141,7 +145,6 @@ class ApiController extends Controller
         return response()->json($movies, 200);
     }
     public function get_latest_update(Request $request){
-        $res = array();
         $items = $request->get('total');
         $total = (isset($items) && (int)$items > 0) ? (int)$items : 100;
         $movies = Movie::select('id','name','origin_name', 'slug','thumb_url','poster_url', 'created_at')->latest()->take($total)->get();
@@ -154,6 +157,59 @@ class ApiController extends Controller
         //     $res[$movie->id]['poster_url'] =  $movie['poster_url'];
         //     $res[$movie->id]['created_at'] =  Carbon::parse($movie['created_at'])->format('d-m-Y H:i:s');
         // }
+        return response()->json($movies, 200);
+    }
+    public function filter_movie(Request $request){
+        $select_fied = '
+            id,
+            name,
+            origin_name,
+            slug,
+            view_total,
+            type,
+            thumb_url,
+            poster_url,
+            created_at,
+            updated_at,
+            publish_year,
+        ';
+        $movies = Movie::selectRaw($select_fied);
+        if(!empty($request->category)){
+            $category = Category::where('slug', $request->category)->first();
+            $movies = $movies->whereHas('categories', function ($query) use ($category) {
+                $query->where('category_id', $category->id);
+            });
+        }
+        if(!empty($request->region)){
+            $region = Region::where('slug', $request->region)->first();
+            $movies = $movies->whereHas('regions', function ($query) use ($region) {
+                $query->where('region_id', $region->id);
+            });
+        }
+        if(!empty($request->year)){
+            $movies = $movies->where('publish_year', $request->year);
+        }
+        if(!empty($request->type)){
+            $movies = $movies->where('type', $request->type);
+        }
+        // if(!empty($request->search)) {
+        //     $search = $request->search;
+        //     $movies = $movies->where(function($query) use ($search) {
+        //         $query->where('slug', 'like', '%'.$search.'%')
+        //             ->orWhere('name', 'like', '%'.$search.'%');
+        //     });
+        // }
+
+        if(!empty($request->sort)){
+            $movies = $movies->orderBy($request->sort, 'desc');
+        }
+        $movies = $movies->get();
+        if($movies->count() == 0){
+            return response()->json([
+                'status' => false,
+                'message' => 'Không có dữ liệu',
+            ], 404);
+        }
         return response()->json($movies, 200);
     }
 }

@@ -33,6 +33,9 @@ Route::get('/khu-vuc/{slug}', [ApiController::class,'get_movie_by_region']);
 Route::get('/the-loai', [ApiController::class,'get_all_categories']);
 Route::get('/khu-vuc', [ApiController::class,'get_all_regions']);
 
+Route::get('/filter', [ApiController::class,'filter_movie']);
+Route::get('/years', [ApiController::class,'get_all_year']);
+
 
 Route::post('/login', [AuthController::class,'login'])->name('login');
 Route::post('/register', [AuthController::class,'register'])->name('register');

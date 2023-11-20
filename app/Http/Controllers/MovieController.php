@@ -24,12 +24,13 @@ class MovieController extends Controller
             $start = !empty(request()->start) ? request()->start :1;
             $page = !empty(request()->page) ? request()->page :1;
             $search = request()->search;
+
             $movies = Movie::query()
             ->join('users', 'users.id', '=', 'movies.user_id')
             ->select('movies.*', 'users.name as user_name')
-            ->paginate($page_size,['*'],'page',(int)($start/$page_size) + 1);
-            $movie_item = $movies->items();
-            return Datatables::of($movie_item)
+            ->take($page_size);
+
+            return Datatables::of($movies)
                 ->addColumn('user_name', function ($row) {
                     return $row->user_name;
                 })
@@ -66,7 +67,7 @@ class MovieController extends Controller
                     'recordsTotal' => Movie::count(),
                     'recordsFiltered' => Movie::count(),
                 ])
-                ->toJson();
+                ->make(true);
             }
         return view('g-movie.movies.index', $data);
     }
