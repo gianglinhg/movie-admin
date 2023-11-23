@@ -77,3 +77,8 @@ if (!function_exists('get_select_array')) {
     return $out;
   }
 }
+if (!function_exists('get_lasted_movies')) {
+  function get_lasted_movies(){
+    return \App\Models\Movie::orderBy('created_at','desc')->limit(5)->get();
+  }
+}
