@@ -13,7 +13,7 @@
                        </div>
                     </a>
                     <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
-                       data-delay-in="0.6">{{$item->name}}</h1>
+                       data-delay-in="0.6">{{$item->origin_name}}</h1>
 
                        <div class="d-flex flex-wrap align-items-center fadeInLeft animated" data-animation-in="fadeInLeft" style="opacity: 1;">
                          <div class="slider-ratting d-flex align-items-center mr-4 mt-2 mt-md-3">
