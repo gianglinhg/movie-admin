@@ -33,6 +33,6 @@
         }
     });
 </script>
-@include('partials._iframe')
+@include('g-movie.partials._iframe')
 @stack('js')
 

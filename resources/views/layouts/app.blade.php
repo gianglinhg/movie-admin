@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
-    @include('partials._head')
+    @include('g-movie.partials._head')
   </head>
   <body>
     <div class="container-scroller">
       <!-- partial:../../partials/_navbar.html -->
-      @include('partials._navbar')
+      @include('g-movie.partials._navbar')
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:../../partials/_sidebar.html -->
-        @include('partials._sidebar')
+        @include('g-movie.partials._sidebar')
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
@@ -37,13 +37,13 @@
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.html -->
-          @include('partials._footer')
+          @include('g-movie.partials._footer')
           <!-- partial -->
         </div>
         <!-- main-panel ends -->
       </div>
       <!-- page-body-wrapper ends -->
     </div>
-    @include('partials._script')
+    @include('g-movie.partials._script')
 </body>
 </html>

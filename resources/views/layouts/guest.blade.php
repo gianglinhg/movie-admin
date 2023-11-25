@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('partials._head')
+    @include('g-movie.partials._head')
 </head>
 <body>
   <div class="container-scroller">
@@ -16,6 +16,6 @@
       </div>
     </div>
   </div>
-  @include('partials._script')
+  @include('g-movie.partials._script')
 </body>
 </html>
