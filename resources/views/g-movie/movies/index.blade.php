@@ -87,7 +87,7 @@
             if (confirm('Thao tác này sẽ xóa tất cả liên quan đến phim này ??')) {
                 const id = $(this).data('id');
                 $.ajax({
-                    url: '/movies/' + id,
+                    url: '/admin/movies/' + id,
                     type: 'DELETE',
                     dataType: 'json',
                     success: function(data) {

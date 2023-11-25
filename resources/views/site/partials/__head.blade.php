@@ -7,6 +7,7 @@
 <link rel="shortcut icon" href="images/favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="{{asset('/site/css/bootstrap.min.css')}}" />
+<link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css')}}" />
 <!-- Typography CSS -->
 <link rel="stylesheet" href="{{asset('/site/css/typography.css')}}">
 <!-- Style -->

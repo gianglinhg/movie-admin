@@ -6,11 +6,11 @@
         <div class="col-sm-12 overflow-hidden">
            <div class="iq-main-header d-flex align-items-center justify-content-between">
               <h4 class="main-title">Latest Movies</h4>
-              <a class="iq-view-all" href="movie-category.html">View All</a>
+              <a class="iq-view-all" href="#">View All</a>
            </div>
            <div class="favorites-contens">
               <ul class="favorites-slider list-inline  row p-0 mb-0">
-                @foreach(get_lasted_movies() as $item)
+                @foreach($latest_movies as $item)
                  <li class="slide-item">
 
                        <div class="block-images position-relative">
@@ -50,7 +50,7 @@
      </div>
   </div>
 </section>
-<section id="iq-upcoming-movie">
+{{-- <section id="iq-upcoming-movie">
   <div class="container-fluid">
      <div class="row">
         <div class="col-sm-12 overflow-hidden">
@@ -259,7 +259,7 @@
         </div>
      </div>
   </div>
-</section>
+</section> --}}
 <section id="iq-topten">
   <div class="container-fluid">
      <div class="row">
@@ -270,153 +270,37 @@
            <div class="topten-contens">
               <h4 class="main-title iq-title topten-title">Top 10 in India</h4>
               <ul id="top-ten-slider" class="list-inline p-0 m-0  d-flex align-items-center">
-                 <li class="slick-bg">
-                    <a href="movie-details.html">
-                    <img src="{{asset('site/images/top-10/01.jpg')}}" class="img-fluid w-100" alt="">
-                    </a>
-                 </li>
-                 <li class="slick-bg">
-                    <a href="movie-details.html">
-                    <img src="{{asset('site/images/top-10/02.jpg')}}" class="img-fluid w-100" alt="">
-                    </a>
-                 </li>
-                 <li class="slick-bg">
-                    <a href="movie-details.html">
-                    <img src="{{asset('site/images/top-10/03.jpg')}}" class="img-fluid w-100" alt="">
-                    </a>
-                 </li>
-                 <li class="slick-bg">
-                    <a href="movie-details.html">
-                    <img src="{{asset('site/images/top-10/04.jpg')}}" class="img-fluid w-100" alt="">
-                    </a>
-                 </li>
-                 <li class="slick-bg">
-                    <a href="movie-details.html">
-                    <img src="{{asset('site/images/top-10/05.jpg')}}" class="img-fluid w-100" alt="">
-                    </a>
-                 </li>
-                 <li class="slick-bg">
-                    <a href="movie-details.html">
-                    <img src="{{asset('site/images/top-10/06.jpg')}}" class="img-fluid w-100" alt="">
-                    </a>
-                 </li>
+                  @foreach($viewest_movies as $item)
+                  <li class="slick-bg">
+                     <a href="#">
+                     <img src="{{ $item->poster_url}}" class="img-fluid w-100" alt="">
+                     </a>
+                  </li>
+                 @endforeach
               </ul>
               <div class="vertical_s">
                  <ul id="top-ten-slider-nav" class="list-inline p-0 m-0  d-flex align-items-center">
+                  @foreach($viewest_movies as $item)
                     <li>
                        <div class="block-images position-relative">
                           <a href="movie-details.html">
-                          <img src="{{asset('site/images/top-10/01.jpg')}}" class="img-fluid w-100" alt="">
+                          <img src="{{ $item->poster_url}}" class="img-fluid w-100" alt="">
                           </a>
                           <div class="block-description">
-                             <h5>The Illusion</h5>
+                             <h5>{{ $item->name}}</h5>
                              <div class="movie-time d-flex align-items-center my-2">
                                 <div class="badge badge-secondary p-1 mr-2">10+</div>
-                                <span class="text-white">3h 15m</span>
+                                <span class="text-white">{{ $item->episode_time}}</span>
                              </div>
                              <div class="hover-buttons">
-                                <a href="movie-details.html" class="btn btn-hover" tabindex="0">
+                                <a href="#" class="btn btn-hover" tabindex="0">
                                 <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
                                 </a>
                              </div>
                           </div>
                        </div>
                     </li>
-                    <li>
-                       <div class="block-images position-relative">
-                          <a href="movie-details.html">
-                          <img src="{{asset('site/images/top-10/02.jpg')}}" class="img-fluid w-100" alt="">
-                          </a>
-                          <div class="block-description">
-                             <h5>Burning</h5>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">13+</div>
-                                <span class="text-white">2h 20m</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                </a>
-                             </div>
-                          </div>
-                       </div>
-                    </li>
-                    <li>
-                       <div class="block-images position-relative">
-                          <a href="movie-details.html">
-                          <img src="{{asset('site/images/top-10/03.jpg')}}" class="img-fluid w-100" alt="">
-                          </a>
-                          <div class="block-description">
-                             <h5>Hubby Kubby</h5>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">9+</div>
-                                <span class="text-white">2h 40m</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                </a>
-                             </div>
-                          </div>
-                       </div>
-                    </li>
-                    <li>
-                       <div class="block-images position-relative">
-                          <a href="movie-details.html">
-                          <img src="{{asset('site/images/top-10/04.jpg')}}" class="img-fluid w-100" alt="">
-                          </a>
-                          <div class="block-description">
-                             <h5>Open Dead Shot</h5>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">16+</div>
-                                <span class="text-white">1h 40m</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                </a>
-                             </div>
-                          </div>
-                       </div>
-                    </li>
-                    <li>
-                       <div class="block-images position-relative">
-                          <a href="movie-details.html">
-                          <img src="{{asset('site/images/top-10/05.jpg')}}" class="img-fluid w-100" alt="">
-                          </a>
-                          <div class="block-description">
-                             <h5> Sand Dust</h5>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">15+</div>
-                                <span class="text-white">3h</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                </a>
-                             </div>
-                          </div>
-                       </div>
-                    </li>
-                    <li>
-                       <div class="block-images position-relative">
-                          <a href="movie-details.html">
-                          <img src="{{asset('site/images/top-10/06.jpg')}}" class="img-fluid w-100" alt="">
-                          </a>
-                          <div class="block-description">
-                             <h5>The Lost Journey</h5>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">20+</div>
-                                <span class="text-white">2h 15m</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                </a>
-                             </div>
-                          </div>
-                       </div>
-                    </li>
+                 @endforeach
                  </ul>
               </div>
            </div>
