@@ -1,14 +1,14 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
-    <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-      <a class="nav-link" href="{{ route('dashboard') }}">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('admin.dashboard') }}">
         <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
     <li class="nav-item nav-category">Phim</li>
-    <li class="nav-item {{ request()->is('movies') ? 'active' : '' }}">
-      <a class="nav-link" href="{{ route('movies.index')}}">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('admin.movies.index')}}">
         <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
         <span class="menu-title">Quản lý phim</span>
       </a>
@@ -21,13 +21,13 @@
       </a>
       <div class="collapse" id="phan_loai">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="{{ route('catalogs.')}}">Danh sách</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('categories.')}}">Thể loại</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('tags.')}}">Tags</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('regions.')}}">Khu vực</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('actors.')}}">Diễn viên</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('directors.')}}">Đạo diễn</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('studios.')}}">Studio</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.catalogs.')}}">Danh sách</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.categories.')}}">Thể loại</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.tags.')}}">Tags</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.regions.')}}">Khu vực</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.actors.')}}">Diễn viên</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.directors.')}}">Đạo diễn</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.studios.')}}">Studio</a></li>
         </ul>
       </div>
     </li>
@@ -60,7 +60,7 @@
     </li>
     <li class="nav-item nav-category">Authicention</li>
     <li class="nav-item {{ request()->is('users') ? 'active' : '' }}">
-      <a class="nav-link" href="{{ route('users')}}">
+      <a class="nav-link" href="{{ route('admin.users')}}">
         <span class="icon-bg"><i class="mdi mdi-contacts menu-icon"></i></span>
         <span class="menu-title">Admin</span>
       </a>

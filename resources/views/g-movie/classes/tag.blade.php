@@ -99,7 +99,7 @@
                 data.id = $('input[name="id"]').val();
                 data.name = $('input[name="name"]').val();
                 data.slug = $('input[name="slug"]').val();
-                $.post(`${url}/tags/store`, data, (res, status) => {
+                $.post(`${admin_url}/tags/store`, data, (res, status) => {
                     if (res.status) {
                         toastr.success(res.res);
                         $('#new_tag').modal('hide');
@@ -117,7 +117,7 @@
                 }).then((e) => {
                     if (e == 'confirm') {
                         const id = $(this).data('id');
-                        $.post(`${url}/tags/destroy/${id}`, (res, status) => {
+                        $.post(`${admin_url}/tags/destroy/${id}`, (res, status) => {
                             toastr.success(res.message);
                             $("#tagTable").DataTable().ajax.reload();
                         });
@@ -126,7 +126,7 @@
             })
             $('#tagTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
-                $.get(`${url}/tags/${id}/edit`, (res, status) => {
+                $.get(`${admin_url}/tags/${id}/edit`, (res, status) => {
                     const new_tag = $('#new_tag');
                     new_tag.find('input[name="id"]').val(res.id);
                     new_tag.find('input[name="name"]').val(res.name);

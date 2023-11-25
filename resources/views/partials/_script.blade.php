@@ -24,7 +24,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    var url = "{{ env('APP_URL') }}"
+    var admin_url = "{{ url('/admin') }}"
+    var url = "{{ url('') }}"
     toastr.options.rtl = true;
     $.ajaxSetup({
         headers: {

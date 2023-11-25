@@ -124,6 +124,6 @@ class Controller extends BaseController
             $this->handle_tags($data['actors'],['name' => 'actor_movie', 'col' => 'actor_id', 'main' => 'actors'], $movie->id);
         }
         toastr('Tạo phim mới thành công', 'success');
-        return redirect()->route('movies.index');
+        return redirect()->route('admin.movies.index');
     }
 }

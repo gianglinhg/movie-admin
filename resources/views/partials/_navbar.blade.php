@@ -92,7 +92,7 @@
                 <i class="mdi mdi-email-open-outline ms-1"></i>
               </span>
             </a> --}}
-            <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="{{ route('profile.edit')}}">
+            <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="{{ route('admin.profile.edit')}}">
               <span>Profile</span>
               <span class="p-0">
                 {{-- <span class="badge badge-success">1</span> --}}

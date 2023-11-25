@@ -99,7 +99,7 @@
                 data.id = $('input[name="id"]').val();
                 data.name = $('input[name="name"]').val();
                 data.slug = $('input[name="slug"]').val();
-                $.post(`${url}/studios/store`, data, (res, status) => {
+                $.post(`${admin_url}/studios/store`, data, (res, status) => {
                     if (res.status) {
                         toastr.success(res.res);
                         $('#new_studio').modal('hide');
@@ -117,7 +117,7 @@
                 }).then((e) => {
                     if (e == 'confirm') {
                         const id = $(this).data('id');
-                        $.post(`${url}/studios/destroy/${id}`, (res, status) => {
+                        $.post(`${admin_url}/studios/destroy/${id}`, (res, status) => {
                             toastr.success(res.message);
                             $("#studioTable").DataTable().ajax.reload();
                         });
@@ -126,7 +126,7 @@
             })
             $('#studioTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
-                $.get(`${url}/studios/${id}/edit`, (res, status) => {
+                $.get(`${admin_url}/studios/${id}/edit`, (res, status) => {
                     const new_studio = $('#new_studio');
                     new_studio.find('input[name="id"]').val(res.id);
                     new_studio.find('input[name="name"]').val(res.name);

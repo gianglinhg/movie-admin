@@ -31,7 +31,7 @@
 
             var table = initDataTable('#movieTable', {
                 "ajax": {
-                    "url": "/movies",
+                    "url": "/admin/movies",
                     "type": "GET",
                     "data": function (d) {
                         d.page = (d.start / d.length) + 1; // Tính toán trang hiện tại

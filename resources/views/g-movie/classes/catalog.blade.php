@@ -98,7 +98,7 @@
                 data.name = $('input[name="name"]').val();
                 data.slug = $('input[name="slug"]').val();
                 data.paginate = $('input[name="paginate"]').val();
-                $.post(`${url}/catalogs/store`, data, (res, status) => {
+                $.post(`${admin_url}/catalogs/store`, data, (res, status) => {
                     if (res.status) {
                         toastr.success(res.res);
                         $('#new_catalog').modal('hide');
@@ -116,7 +116,7 @@
                 }).then((e) => {
                     if (e == 'confirm') {
                         const id = $(this).data('id');
-                        $.post(`${url}/catalogs/destroy/${id}`, (res, status) => {
+                        $.post(`${admin_url}/catalogs/destroy/${id}`, (res, status) => {
                             toastr.success(res.message);
                             $("#catalogTable").DataTable().ajax.reload();
                         });
@@ -125,7 +125,7 @@
             })
             $('#catalogTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
-                $.get(`${url}/catalogs/${id}/edit`, (res, status) => {
+                $.get(`${admin_url}/catalogs/${id}/edit`, (res, status) => {
                     const new_catalog = $('#new_catalog');
                     new_catalog.find('input[name="id"]').val(res.id);
                     new_catalog.find('input[name="name"]').val(res.name);

@@ -99,7 +99,7 @@
                 data.id = $('input[name="id"]').val();
                 data.name = $('input[name="name"]').val();
                 data.slug = $('input[name="slug"]').val();
-                $.post(`${url}/actors/store`, data, (res, status) => {
+                $.post(`${admin_url}/actors/store`, data, (res, status) => {
                     if (res.status) {
                         toastr.success(res.res);
                         $('#new_actor').modal('hide');
@@ -117,7 +117,7 @@
                 }).then((e) => {
                     if (e == 'confirm') {
                         const id = $(this).data('id');
-                        $.post(`${url}/actors/destroy/${id}`, (res, status) => {
+                        $.post(`${admin_url}/actors/destroy/${id}`, (res, status) => {
                             toastr.success(res.message);
                             $("#actorTable").DataTable().ajax.reload();
                         });
@@ -126,7 +126,7 @@
             })
             $('#actorTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
-                $.get(`${url}/actors/${id}/edit`, (res, status) => {
+                $.get(`${admin_url}/actors/${id}/edit`, (res, status) => {
                     const new_actor = $('#new_actor');
                     new_actor.find('input[name="id"]').val(res.id);
                     new_actor.find('input[name="name"]').val(res.name);

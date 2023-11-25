@@ -14,7 +14,7 @@
             <a class="nav-link" data-bs-toggle="tab" href="#more-tab">Khác</a>
         </li>
     </ul>
-    {!! Form::open(['route' => ['movies.update', $movie->id], 'method' => 'put', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['route' => ['admin.movies.update', $movie->id], 'method' => 'put', 'enctype' => 'multipart/form-data']) !!}
     <div class="tab-content w-75" id="movie-create">
         <div class="tab-pane fade show active" id="info-tab" role="tabpanel">
             <div class="row">

@@ -99,7 +99,7 @@
                 data.id = $('input[name="id"]').val();
                 data.name = $('input[name="name"]').val();
                 data.slug = $('input[name="slug"]').val();
-                $.post(`${url}/directors/store`, data, (res, status) => {
+                $.post(`${admin_url}/directors/store`, data, (res, status) => {
                     if (res.status) {
                         toastr.success(res.res);
                         $('#new_director').modal('hide');
@@ -117,7 +117,7 @@
                 }).then((e) => {
                     if (e == 'confirm') {
                         const id = $(this).data('id');
-                        $.post(`${url}/directors/destroy/${id}`, (res, status) => {
+                        $.post(`${admin_url}/directors/destroy/${id}`, (res, status) => {
                             toastr.success(res.message);
                             $("#directorTable").DataTable().ajax.reload();
                         });
@@ -126,7 +126,7 @@
             })
             $('#directorTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
-                $.get(`${url}/directors/${id}/edit`, (res, status) => {
+                $.get(`${admin_url}/directors/${id}/edit`, (res, status) => {
                     const new_director = $('#new_director');
                     new_director.find('input[name="id"]').val(res.id);
                     new_director.find('input[name="name"]').val(res.name);

@@ -99,7 +99,8 @@
                 data.id = $('input[name="id"]').val();
                 data.name = $('input[name="name"]').val();
                 data.slug = $('input[name="slug"]').val();
-                $.post("{{ route('categories.store') }}", data, (res, status) => {
+                $.post(`${admin_url}/categories/store`, data, (res, status) => {
+                // $.post("{{ route('admin.categories.store') }}", data, (res, status) => {
                     if (res.status) {
                         toastr.success(res.res);
                         $('#new_category').modal('hide');
@@ -117,7 +118,7 @@
                 }).then((e) => {
                     if (e == 'confirm') {
                         const id = $(this).data('id');
-                        $.post(`${url}/categories/destroy/${id}`, (res, status) => {
+                        $.post(`${admin_url}/categories/destroy/${id}`, (res, status) => {
                             toastr.success(res.message);
                             $("#movieTable").DataTable().ajax.reload();
                         });
@@ -126,7 +127,7 @@
             })
             $('#categoryTable').on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
-                $.get(`${url}/categories/${id}/edit`, (res, status) => {
+                $.get(`${admin_url}/categories/${id}/edit`, (res, status) => {
                     const new_category = $('#new_category');
                     new_category.find('input[name="id"]').val(res.id);
                     new_category.find('input[name="name"]').val(res.name);

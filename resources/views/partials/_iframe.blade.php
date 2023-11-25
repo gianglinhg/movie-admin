@@ -1,4 +1,4 @@
-@if (request()->route()->named('movies.edit') ||request()->route()->named('movies.create'))
+@if (request()->route()->named('admin.movies.edit') ||request()->route()->named('admin.movies.create'))
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script src="{{ asset('/iframe/movie.js') }}"></script>

@@ -17,7 +17,7 @@ class MovieController extends Controller
     {
         $data = [];
         $data['title'] = 'Danh sách phim';
-        $data['route_new'] = route("movies.create");
+        $data['route_new'] = route('admin.movies.create');
         if (request()->ajax()) {
             $draw = request()->draw;
             $page_size = request()->length > 0 ? request()->length : 10;
@@ -78,7 +78,7 @@ class MovieController extends Controller
     public function create()
     {
         $data = [];
-        $data['route_list'] = route('movies.index');
+        $data['route_list'] = route('admin.movies.index');
         $data['categories'] = DB::table('categories')->get();
         $data['regions'] = DB::table('regions')->get();
         $data['actors'] = get_select_array(DB::table('actors')->latest()->get());
@@ -141,7 +141,7 @@ class MovieController extends Controller
             $this->handle_tags($request->actors,['name' => 'actor_movie', 'col' => 'actor_id', 'main' => 'actors'], $movie->id);
         }
         toastr('Tạo phim mới thành công', 'success');
-        return redirect()->route('movies.index');
+        return redirect()->route('admin.movies.index');
     }
 
     /**
@@ -161,7 +161,7 @@ class MovieController extends Controller
     {
         $data = [];
         $movie = Movie::findOrFail($id);
-        $data['route_list'] = route('movies.index');
+        $data['route_list'] = route('admin.movies.index');
         $data['categories'] = DB::table('categories')->get();
         $data['regions'] = DB::table('regions')->get();
         $data['movie_categories'] = $movie->categories->pluck('id')->toArray();
