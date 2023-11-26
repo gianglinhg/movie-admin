@@ -12,7 +12,7 @@
                     <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                  </div>
               </a>
-              <a class="navbar-brand" href="index.html"> <img class="img-fluid logo" src="images/logo.png"
+              <a class="navbar-brand" href="/"> <img class="img-fluid logo" src="{{asset('site/images/logo.png')}}"
                  alt="streamit" /> </a>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                  <div class="menu-main-menu-container">
@@ -118,7 +118,7 @@
                           </li>
                           <li>
                              <a href="#" class="iq-user-dropdown search-toggle d-flex align-items-center">
-                             <img src="images/user/user.jpg" class="img-fluid avatar-40 rounded-circle"
+                             <img src="{{ asset('site/images/user/user.jpg')}}" class="img-fluid avatar-40 rounded-circle"
                                 alt="user">
                              </a>
                              <div class="iq-sub-dropdown iq-user-dropdown">
@@ -238,7 +238,7 @@
                     <li class="nav-item nav-icon">
                        <a href="#" class="iq-user-dropdown search-toggle p-0 d-flex align-items-center"
                           data-toggle="search-toggle">
-                       <img src="images/user/user.jpg" class="img-fluid avatar-40 rounded-circle" alt="user">
+                       <img src="{{ asset('site/images/user/user.jpg')}}" class="img-fluid avatar-40 rounded-circle" alt="user">
                        </a>
                        <div class="iq-sub-dropdown iq-user-dropdown">
                           <div class="iq-card shadow-none m-0">

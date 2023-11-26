@@ -1,4 +1,5 @@
-<?php $slide = get_lasted_movies(); ?>
+<?php $slide = get_lasted_movies();
+?>
 <section id="home" class="iq-main-slider p-0">
   <div id="home-slider" class="slider m-0 p-0">
     @foreach($slide as $key => $item)
@@ -9,11 +10,11 @@
                  <div class="col-xl-6 col-lg-12 col-md-12">
                     <a href="javascript:void(0);">
                        <div class="channel-logo" data-animation-in="fadeInLeft" data-delay-in="0.5">
-                          <img src="images/logo.png" class="c-logo" alt="streamit">
+                          <img src="{{asset('site/images/logo.png')}}" class="c-logo" alt="streamit">
                        </div>
                     </a>
                     <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
-                       data-delay-in="0.6">{{$item->origin_name}}</h1>
+                       data-delay-in="0.6">{{$item->name}}</h1>
 
                        <div class="d-flex flex-wrap align-items-center fadeInLeft animated" data-animation-in="fadeInLeft" style="opacity: 1;">
                          <div class="slider-ratting d-flex align-items-center mr-4 mt-2 mt-md-3">

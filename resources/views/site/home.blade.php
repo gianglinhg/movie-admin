@@ -264,11 +264,11 @@
   <div class="container-fluid">
      <div class="row">
         <div class="col-sm-12 overflow-hidden">
-           <div class="iq-main-header d-flex align-items-center justify-content-between">
-              <!-- <h4 class="main-title iq-title topten-title-sm">Top 10 in India</h4> -->
-           </div>
+           {{-- <div class="iq-main-header d-flex align-items-center justify-content-between">
+              <h4 class="main-title iq-title topten-title-sm">Top 10 in India</h4>
+           </div> --}}
            <div class="topten-contens">
-              <h4 class="main-title iq-title topten-title">Top 10 in India</h4>
+              <h4 class="main-title iq-title topten-title">Top 10 phim tại Việt Nam</h4>
               <ul id="top-ten-slider" class="list-inline p-0 m-0  d-flex align-items-center">
                   @foreach($viewest_movies as $item)
                   <li class="slick-bg">
@@ -313,22 +313,23 @@
      <div class="row">
         <div class="col-sm-12 overflow-hidden">
            <div class="iq-main-header d-flex align-items-center justify-content-between">
-              <h4 class="main-title">Suggested For You</h4>
+              <h4 class="main-title">Phim đang chiếu</h4>
               <a class="iq-view-all" href="movie-category.html">View All</a>
            </div>
            <div class="suggestede-contens">
               <ul class="list-inline favorites-slider row p-0 mb-0">
+                  @foreach($ongoing_movies as $item)
                  <li class="slide-item">
 
                        <div class="block-images position-relative">
                           <div class="img-box">
-                             <img src="{{asset('site/images/suggested/01.jpg')}}" class="img-fluid" alt="">
+                             <img src="{{$item->poster_url}}" class="img-fluid" alt="">
                           </div>
                           <div class="block-description">
-                             <h6 class="iq-title"><a href="movie-details.html">Inside the Sea</a></h6>
+                             <h6 class="iq-title"><a href="movie-details.html">{{$item->name}}</a></h6>
                              <div class="movie-time d-flex align-items-center my-2">
                                 <div class="badge badge-secondary p-1 mr-2">11+</div>
-                                <span class="text-white">2h 30m</span>
+                                <span class="text-white">{{$item->episode_time}}</span>
                              </div>
                              <div class="hover-buttons">
                                 <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
@@ -337,183 +338,29 @@
                           </div>
                           <div class="block-social-info">
                              <ul class="list-inline p-0 m-0 music-play-lists">
-                                <li class="share">
-                                    <span><i class="ri-share-fill"></i></span>
-                                    <div class="share-box">
-                                       <div class="d-flex align-items-center">
-                                          <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                          <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                          <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                       </div>
-                                    </div>
-                                 </li>
                                 <li><span><i class="ri-heart-fill"></i></span>
-                              <span class="count-box">19+</span></li>
+                                 <span class="count-box">19+</span></li>
                                 <li><span><i class="ri-add-line"></i></span></li>
                              </ul>
                           </div>
                        </div>
 
                  </li>
-                 <li class="slide-item">
-
-                       <div class="block-images position-relative">
-                          <div class="img-box">
-                             <img src="{{asset('site/images/suggested/02.jpg')}}" class="img-fluid" alt="">
-                          </div>
-                          <div class="block-description">
-                             <h6 class="iq-title"><a href="show-details.html">Jumbo Queen</a></h6>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">9+</div>
-                                <span class="text-white">2 Seasons</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                Play Now</span>
-                             </div>
-                          </div>
-                          <div class="block-social-info">
-                             <ul class="list-inline p-0 m-0 music-play-lists">
-                                <li class="share">
-                                    <span><i class="ri-share-fill"></i></span>
-                                    <div class="share-box">
-                                       <div class="d-flex align-items-center">
-                                          <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                          <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                          <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                <li><span><i class="ri-heart-fill"></i></span>
-                              <span class="count-box">19+</span></li>
-                                <li><span><i class="ri-add-line"></i></span></li>
-                             </ul>
-                          </div>
-                       </div>
-
-                 </li>
-                 <li class="slide-item">
-
-                       <div class="block-images position-relative">
-                          <div class="img-box">
-                             <img src="{{asset('site/images/suggested/03.jpg')}}" class="img-fluid" alt="">
-                          </div>
-                          <div class="block-description">
-                             <h6 class="iq-title"><a href="movie-details.html">Unknown Land</a></h6>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">17+</div>
-                                <span class="text-white">2h 30m</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                Play Now</span>
-                             </div>
-                          </div>
-                          <div class="block-social-info">
-                             <ul class="list-inline p-0 m-0 music-play-lists">
-                                <li class="share">
-                                    <span><i class="ri-share-fill"></i></span>
-                                    <div class="share-box">
-                                       <div class="d-flex align-items-center">
-                                          <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                          <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                          <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                <li><span><i class="ri-heart-fill"></i></span>
-                              <span class="count-box">19+</span></li>
-                                <li><span><i class="ri-add-line"></i></span></li>
-                             </ul>
-                          </div>
-                       </div>
-
-                 </li>
-                 <li class="slide-item">
-                       <div class="block-images position-relative">
-                          <div class="img-box">
-                             <img src="{{asset('site/images/suggested/04.jpg')}}" class="img-fluid" alt="">
-                          </div>
-                          <div class="block-description">
-                             <h6 class="iq-title"><a href="show-details.html">Friends</a></h6>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">14+</div>
-                                <span class="text-white">10 Seasons</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                Play Now</span>
-                             </div>
-                          </div>
-                          <div class="block-social-info">
-                             <ul class="list-inline p-0 m-0 music-play-lists">
-                                <li class="share">
-                                    <span><i class="ri-share-fill"></i></span>
-                                    <div class="share-box">
-                                       <div class="d-flex align-items-center">
-                                          <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                          <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                          <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                <li><span><i class="ri-heart-fill"></i></span>
-                              <span class="count-box">19+</span></li>
-                                <li><span><i class="ri-add-line"></i></span></li>
-                             </ul>
-                          </div>
-                       </div>
-                 </li>
-                 <li class="slide-item">
-
-                       <div class="block-images position-relative">
-                          <div class="img-box">
-                             <img src="{{asset('site/images/suggested/05.jpg')}}" class="img-fluid" alt="">
-                          </div>
-                          <div class="block-description">
-                             <h6 class="iq-title"><a href="movie-details.html">Blood Block</a></h6>
-                             <div class="movie-time d-flex align-items-center my-2">
-                                <div class="badge badge-secondary p-1 mr-2">13+</div>
-                                <span class="text-white">2h 40m</span>
-                             </div>
-                             <div class="hover-buttons">
-                                <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                Play Now</span>
-                             </div>
-                          </div>
-                          <div class="block-social-info">
-                             <ul class="list-inline p-0 m-0 music-play-lists">
-                                <li class="share">
-                                    <span><i class="ri-share-fill"></i></span>
-                                    <div class="share-box">
-                                       <div class="d-flex align-items-center">
-                                          <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                          <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                          <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                <li><span><i class="ri-heart-fill"></i></span>
-                              <span class="count-box">19+</span></li>
-                                <li><span><i class="ri-add-line"></i></span></li>
-                             </ul>
-                          </div>
-                       </div>
-
-                 </li>
+                 @endforeach
               </ul>
            </div>
         </div>
      </div>
   </div>
 </section>
-<section id="parallex" class="parallax-window">
+<section id="parallex" class="parallax-window" style="background: url({{$viewest_movies[2]->poster_url}}) center center;">
   <div class="container-fluid h-100">
      <div class="row align-items-center justify-content-center h-100 parallaxt-details">
         <div class="col-lg-4 r-mb-23">
            <div class="text-left">
               <a href="javascript:void(0);">
-              <img src="{{asset('site/images/parallax/parallax-logo.png')}}" class="img-fluid" alt="bailey">
+              {{-- <img src="{{$viewest_movies[2]->name}}" class="img-fluid" alt="bailey"> --}}
+              <h6 class="iq-title img-fluid"><a href="#">{{$viewest_movies[2]->name}}</a></h6>
               </a>
               <div class="parallax-ratting d-flex align-items-center mt-3 mb-3">
                  <ul
@@ -535,7 +382,7 @@
                  <div class="badge badge-secondary mr-3">13+</div>
                  <h6 class="text-white">2h 30m</h6>
               </div>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+              <p>{!!$viewest_movies[0]->content!!}</p>
               <div class="parallax-buttons">
                  <a href="movie-details.html" class="btn btn-hover">Play Now</a>
                  <a href="movie-details.html" class="btn btn-link">More details</a>
@@ -545,14 +392,14 @@
         <div class="col-lg-8">
            <div class="parallax-img">
               <a href="movie-details.html">
-                <img src="{{asset('site/images/parallax/p1.jpg')}}" class="img-fluid w-100" alt="bailey">
+                <img src="{{$viewest_movies[2]->poster_url}}" class="img-fluid w-100" alt="bailey">
               </a>
            </div>
         </div>
      </div>
   </div>
 </section>
-<section id="iq-trending" class="s-margin">
+{{-- <section id="iq-trending" class="s-margin">
   <div class="container-fluid">
      <div class="row">
         <div class="col-sm-12 overflow-hidden">
@@ -3387,206 +3234,206 @@
         </div>
      </div>
   </div>
-</section>
-<section id="iq-tvthrillers" class="s-margin">
-            <div class="container-fluid">
-               <div class="row">
-                  <div class="col-sm-12 overflow-hidden">
-                     <div class="iq-main-header d-flex align-items-center justify-content-between">
-                        <h4 class="main-title">Recommended For You</h4>
-                        <a class="iq-view-all" href="movie-category.html">View All</a>
-                     </div>
-                     <div class="tvthrillers-contens">
-                        <ul class="favorites-slider list-inline row p-0 mb-0">
-                           <li class="slide-item">
-
-                                 <div class="block-images position-relative">
-                                    <div class="img-box">
-                                       <img src="images/tvthrillers/01.jpg" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="block-description">
-                                       <h6 class="iq-title"><a href="show-details.html">Day of Darkness</a></h6>
-                                       <div class="movie-time d-flex align-items-center my-2">
-                                          <div class="badge badge-secondary p-1 mr-2">15+</div>
-                                          <span class="text-white">2 Seasons</span>
-                                       </div>
-                                       <div class="hover-buttons">
-                                          <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                          Play Now</span>
-                                       </div>
-                                    </div>
-                                    <div class="block-social-info">
-                                       <ul class="list-inline p-0 m-0 music-play-lists">
-                                          <li class="share">
-                                              <span><i class="ri-share-fill"></i></span>
-                                              <div class="share-box">
-                                                 <div class="d-flex align-items-center">
-                                                    <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                                    <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                                    <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                                 </div>
-                                              </div>
-                                           </li>
-                                          <li><span><i class="ri-heart-fill"></i></span>
-                                        <span class="count-box">19+</span></li>
-                                          <li><span><i class="ri-add-line"></i></span></li>
-                                       </ul>
-                                    </div>
-                                 </div>
-
-                           </li>
-                           <li class="slide-item">
-
-                                 <div class="block-images position-relative">
-                                    <div class="img-box">
-                                       <img src="images/tvthrillers/02.jpg" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="block-description">
-                                       <h6 class="iq-title"><a href="show-details.html">My True Friends</a></h6>
-                                       <div class="movie-time d-flex align-items-center my-2">
-                                          <div class="badge badge-secondary p-1 mr-2">7+</div>
-                                          <span class="text-white">2 Seasons</span>
-                                       </div>
-                                       <div class="hover-buttons">
-                                          <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                          Play Now</span>
-                                       </div>
-                                    </div>
-                                    <div class="block-social-info">
-                                       <ul class="list-inline p-0 m-0 music-play-lists">
-                                          <li class="share">
-                                              <span><i class="ri-share-fill"></i></span>
-                                              <div class="share-box">
-                                                 <div class="d-flex align-items-center">
-                                                    <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                                    <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                                    <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                                 </div>
-                                              </div>
-                                           </li>
-                                          <li><span><i class="ri-heart-fill"></i></span>
-                                        <span class="count-box">19+</span></li>
-                                          <li><span><i class="ri-add-line"></i></span></li>
-                                       </ul>
-                                    </div>
-                                 </div>
-
-                           </li>
-                           <li class="slide-item">
-
-                                 <div class="block-images position-relative">
-                                    <div class="img-box">
-                                       <img src="images/tvthrillers/03.jpg" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="block-description">
-                                       <h6 class="iq-title"><a href="show-details.html">Arrival 1999</a></h6>
-                                       <div class="movie-time d-flex align-items-center my-2">
-                                          <div class="badge badge-secondary p-1 mr-2">11+</div>
-                                          <span class="text-white">3 Seasons</span>
-                                       </div>
-                                       <div class="hover-buttons">
-                                          <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                          Play Now</span>
-                                       </div>
-                                    </div>
-                                    <div class="block-social-info">
-                                       <ul class="list-inline p-0 m-0 music-play-lists">
-                                          <li class="share">
-                                              <span><i class="ri-share-fill"></i></span>
-                                              <div class="share-box">
-                                                 <div class="d-flex align-items-center">
-                                                    <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                                    <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                                    <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                                 </div>
-                                              </div>
-                                           </li>
-                                          <li><span><i class="ri-heart-fill"></i></span>
-                                        <span class="count-box">19+</span></li>
-                                          <li><span><i class="ri-add-line"></i></span></li>
-                                       </ul>
-                                    </div>
-                                 </div>
-
-                           </li>
-                           <li class="slide-item">
-
-                                 <div class="block-images position-relative">
-                                    <div class="img-box">
-                                       <img src="images/tvthrillers/04.jpg" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="block-description">
-                                       <h6 class="iq-title"><a href="show-details.html">Night Mare</a></h6>
-                                       <div class="movie-time d-flex align-items-center my-2">
-                                          <div class="badge badge-secondary p-1 mr-2">18+</div>
-                                          <span class="text-white">3 Seasons</span>
-                                       </div>
-                                       <div class="hover-buttons">
-                                          <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                          Play Now</span>
-                                       </div>
-                                    </div>
-                                    <div class="block-social-info">
-                                       <ul class="list-inline p-0 m-0 music-play-lists">
-                                          <li class="share">
-                                              <span><i class="ri-share-fill"></i></span>
-                                              <div class="share-box">
-                                                 <div class="d-flex align-items-center">
-                                                    <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                                    <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                                    <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                                 </div>
-                                              </div>
-                                           </li>
-                                          <li><span><i class="ri-heart-fill"></i></span>
-                                        <span class="count-box">19+</span></li>
-                                          <li><span><i class="ri-add-line"></i></span></li>
-                                       </ul>
-                                    </div>
-                                 </div>
-
-                           </li>
-                           <li class="slide-item">
-
-                                 <div class="block-images position-relative">
-                                    <div class="img-box">
-                                       <img src="images/tvthrillers/05.jpg" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="block-description">
-                                       <h6 class="iq-title"><a href="show-details.html">The Marshal King</a></h6>
-                                       <div class="movie-time d-flex align-items-center my-2">
-                                          <div class="badge badge-secondary p-1 mr-2">17+</div>
-                                          <span class="text-white">1 Season</span>
-                                       </div>
-                                       <div class="hover-buttons">
-                                          <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                          Play Now</span>
-                                       </div>
-                                    </div>
-                                    <div class="block-social-info">
-                                       <ul class="list-inline p-0 m-0 music-play-lists">
-                                          <li class="share">
-                                              <span><i class="ri-share-fill"></i></span>
-                                              <div class="share-box">
-                                                 <div class="d-flex align-items-center">
-                                                    <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
-                                                    <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
-                                                    <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
-                                                 </div>
-                                              </div>
-                                           </li>
-                                          <li><span><i class="ri-heart-fill"></i></span>
-                                        <span class="count-box">19+</span></li>
-                                          <li><span><i class="ri-add-line"></i></span></li>
-                                       </ul>
-                                    </div>
-                                 </div>
-
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
+</section> --}}
+{{-- <section id="iq-tvthrillers" class="s-margin">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-sm-12 overflow-hidden">
+            <div class="iq-main-header d-flex align-items-center justify-content-between">
+               <h4 class="main-title">Recommended For You</h4>
+               <a class="iq-view-all" href="movie-category.html">View All</a>
             </div>
-         </section>
+            <div class="tvthrillers-contens">
+               <ul class="favorites-slider list-inline row p-0 mb-0">
+                  <li class="slide-item">
+
+                        <div class="block-images position-relative">
+                           <div class="img-box">
+                              <img src="images/tvthrillers/01.jpg" class="img-fluid" alt="">
+                           </div>
+                           <div class="block-description">
+                              <h6 class="iq-title"><a href="show-details.html">Day of Darkness</a></h6>
+                              <div class="movie-time d-flex align-items-center my-2">
+                                 <div class="badge badge-secondary p-1 mr-2">15+</div>
+                                 <span class="text-white">2 Seasons</span>
+                              </div>
+                              <div class="hover-buttons">
+                                 <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                 Play Now</span>
+                              </div>
+                           </div>
+                           <div class="block-social-info">
+                              <ul class="list-inline p-0 m-0 music-play-lists">
+                                 <li class="share">
+                                       <span><i class="ri-share-fill"></i></span>
+                                       <div class="share-box">
+                                          <div class="d-flex align-items-center">
+                                             <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
+                                             <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
+                                             <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
+                                          </div>
+                                       </div>
+                                    </li>
+                                 <li><span><i class="ri-heart-fill"></i></span>
+                                 <span class="count-box">19+</span></li>
+                                 <li><span><i class="ri-add-line"></i></span></li>
+                              </ul>
+                           </div>
+                        </div>
+
+                  </li>
+                  <li class="slide-item">
+
+                        <div class="block-images position-relative">
+                           <div class="img-box">
+                              <img src="images/tvthrillers/02.jpg" class="img-fluid" alt="">
+                           </div>
+                           <div class="block-description">
+                              <h6 class="iq-title"><a href="show-details.html">My True Friends</a></h6>
+                              <div class="movie-time d-flex align-items-center my-2">
+                                 <div class="badge badge-secondary p-1 mr-2">7+</div>
+                                 <span class="text-white">2 Seasons</span>
+                              </div>
+                              <div class="hover-buttons">
+                                 <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                 Play Now</span>
+                              </div>
+                           </div>
+                           <div class="block-social-info">
+                              <ul class="list-inline p-0 m-0 music-play-lists">
+                                 <li class="share">
+                                       <span><i class="ri-share-fill"></i></span>
+                                       <div class="share-box">
+                                          <div class="d-flex align-items-center">
+                                             <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
+                                             <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
+                                             <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
+                                          </div>
+                                       </div>
+                                    </li>
+                                 <li><span><i class="ri-heart-fill"></i></span>
+                                 <span class="count-box">19+</span></li>
+                                 <li><span><i class="ri-add-line"></i></span></li>
+                              </ul>
+                           </div>
+                        </div>
+
+                  </li>
+                  <li class="slide-item">
+
+                        <div class="block-images position-relative">
+                           <div class="img-box">
+                              <img src="images/tvthrillers/03.jpg" class="img-fluid" alt="">
+                           </div>
+                           <div class="block-description">
+                              <h6 class="iq-title"><a href="show-details.html">Arrival 1999</a></h6>
+                              <div class="movie-time d-flex align-items-center my-2">
+                                 <div class="badge badge-secondary p-1 mr-2">11+</div>
+                                 <span class="text-white">3 Seasons</span>
+                              </div>
+                              <div class="hover-buttons">
+                                 <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                 Play Now</span>
+                              </div>
+                           </div>
+                           <div class="block-social-info">
+                              <ul class="list-inline p-0 m-0 music-play-lists">
+                                 <li class="share">
+                                       <span><i class="ri-share-fill"></i></span>
+                                       <div class="share-box">
+                                          <div class="d-flex align-items-center">
+                                             <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
+                                             <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
+                                             <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
+                                          </div>
+                                       </div>
+                                    </li>
+                                 <li><span><i class="ri-heart-fill"></i></span>
+                                 <span class="count-box">19+</span></li>
+                                 <li><span><i class="ri-add-line"></i></span></li>
+                              </ul>
+                           </div>
+                        </div>
+
+                  </li>
+                  <li class="slide-item">
+
+                        <div class="block-images position-relative">
+                           <div class="img-box">
+                              <img src="images/tvthrillers/04.jpg" class="img-fluid" alt="">
+                           </div>
+                           <div class="block-description">
+                              <h6 class="iq-title"><a href="show-details.html">Night Mare</a></h6>
+                              <div class="movie-time d-flex align-items-center my-2">
+                                 <div class="badge badge-secondary p-1 mr-2">18+</div>
+                                 <span class="text-white">3 Seasons</span>
+                              </div>
+                              <div class="hover-buttons">
+                                 <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                 Play Now</span>
+                              </div>
+                           </div>
+                           <div class="block-social-info">
+                              <ul class="list-inline p-0 m-0 music-play-lists">
+                                 <li class="share">
+                                       <span><i class="ri-share-fill"></i></span>
+                                       <div class="share-box">
+                                          <div class="d-flex align-items-center">
+                                             <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
+                                             <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
+                                             <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
+                                          </div>
+                                       </div>
+                                    </li>
+                                 <li><span><i class="ri-heart-fill"></i></span>
+                                 <span class="count-box">19+</span></li>
+                                 <li><span><i class="ri-add-line"></i></span></li>
+                              </ul>
+                           </div>
+                        </div>
+
+                  </li>
+                  <li class="slide-item">
+
+                        <div class="block-images position-relative">
+                           <div class="img-box">
+                              <img src="images/tvthrillers/05.jpg" class="img-fluid" alt="">
+                           </div>
+                           <div class="block-description">
+                              <h6 class="iq-title"><a href="show-details.html">The Marshal King</a></h6>
+                              <div class="movie-time d-flex align-items-center my-2">
+                                 <div class="badge badge-secondary p-1 mr-2">17+</div>
+                                 <span class="text-white">1 Season</span>
+                              </div>
+                              <div class="hover-buttons">
+                                 <span class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                 Play Now</span>
+                              </div>
+                           </div>
+                           <div class="block-social-info">
+                              <ul class="list-inline p-0 m-0 music-play-lists">
+                                 <li class="share">
+                                       <span><i class="ri-share-fill"></i></span>
+                                       <div class="share-box">
+                                          <div class="d-flex align-items-center">
+                                             <a href="https://www.facebook.com/sharer?u=https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-facebook-fill"></i></a>
+                                             <a href="https://twitter.com/intent/tweet?text=Currentlyreading" target="_blank" rel="noopener noreferrer" class="share-ico" tabindex="0"><i class="ri-twitter-fill"></i></a>
+                                             <a href="#" data-link="https://iqonic.design/wp-themes/streamit_wp/movie/shadow/" class="share-ico iq-copy-link" tabindex="0"><i class="ri-links-fill"></i></a>
+                                          </div>
+                                       </div>
+                                    </li>
+                                 <li><span><i class="ri-heart-fill"></i></span>
+                                 <span class="count-box">19+</span></li>
+                                 <li><span><i class="ri-add-line"></i></span></li>
+                              </ul>
+                           </div>
+                        </div>
+
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</section> --}}
 @endsection
