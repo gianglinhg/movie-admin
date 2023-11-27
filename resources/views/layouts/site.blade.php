@@ -16,12 +16,12 @@
       </header>
       <!-- Header End -->
       <!-- Slider Start -->
-      @include('site.partials.__hero')
+      @if (request()->route()->named('home'))
+         @include('site.partials.__hero')
+      @endif
       <!-- Slider End -->
       <!-- MainContent -->
-      <div class="main-content">
-        @yield('site_content')
-      </div>
+      @yield('site_content')
 
       {{-- Footer --}}
       @include('site.partials.__footer')

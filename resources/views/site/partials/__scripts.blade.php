@@ -15,3 +15,4 @@
 <script src="{{asset('/site/js/slick-animation.min.js')}}"></script>
 <!-- Custom JS-->
 <script src="{{asset('/site/js/custom.js')}}"></script>
+@stack('site_js')

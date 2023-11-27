@@ -12,13 +12,13 @@
               <ul class="favorites-slider list-inline  row p-0 mb-0">
                 @foreach($latest_movies as $item)
                  <li class="slide-item">
-
+                     <a href="{{ route('show_single', ['slug' => $item->slug])}}">
                        <div class="block-images position-relative">
                           <div class="img-box">
                              <img src="{{$item->poster_url}}" class="img-fluid" alt="">
                           </div>
                           <div class="block-description">
-                             <h6 class="iq-title"><a href="movie-details.html">{{$item->name}}</a></h6>
+                             <h6 class="iq-title"><a href="{{ route('show_single', ['slug' => $item->slug])}}">{{$item->name}}</a></h6>
                              <div class="movie-time d-flex align-items-center my-2">
                                 <div class="badge badge-secondary p-1 mr-2">13+</div>
                                 <span class="text-white">{{$item->episode_time}}</span>
@@ -264,15 +264,15 @@
   <div class="container-fluid">
      <div class="row">
         <div class="col-sm-12 overflow-hidden">
-           {{-- <div class="iq-main-header d-flex align-items-center justify-content-between">
-              <h4 class="main-title iq-title topten-title-sm">Top 10 in India</h4>
-           </div> --}}
+           <div class="iq-main-header d-flex align-items-center justify-content-between">
+              {{-- <h4 class="main-title iq-title topten-title-sm">Top 10 in India</h4> --}}
+           </div>
            <div class="topten-contens">
               <h4 class="main-title iq-title topten-title">Top 10 phim tại Việt Nam</h4>
               <ul id="top-ten-slider" class="list-inline p-0 m-0  d-flex align-items-center">
                   @foreach($viewest_movies as $item)
                   <li class="slick-bg">
-                     <a href="#">
+                     <a href="{{ route('show_single', ['slug' => $item->slug])}}">
                      <img src="{{ $item->poster_url}}" class="img-fluid w-100" alt="">
                      </a>
                   </li>
@@ -283,7 +283,7 @@
                   @foreach($viewest_movies as $item)
                     <li>
                        <div class="block-images position-relative">
-                          <a href="movie-details.html">
+                          <a href="{{ route('show_single', ['slug' => $item->slug])}}">
                           <img src="{{ $item->poster_url}}" class="img-fluid w-100" alt="">
                           </a>
                           <div class="block-description">
@@ -293,7 +293,7 @@
                                 <span class="text-white">{{ $item->episode_time}}</span>
                              </div>
                              <div class="hover-buttons">
-                                <a href="#" class="btn btn-hover" tabindex="0">
+                                <a href="{{ route('show_single', ['slug' => $item->slug])}}" class="btn btn-hover" tabindex="0">
                                 <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
                                 </a>
                              </div>
@@ -326,7 +326,7 @@
                              <img src="{{$item->poster_url}}" class="img-fluid" alt="">
                           </div>
                           <div class="block-description">
-                             <h6 class="iq-title"><a href="movie-details.html">{{$item->name}}</a></h6>
+                             <h6 class="iq-title"><a href="{{ route('show_single', ['slug' => $item->slug])}}">{{$item->name}}</a></h6>
                              <div class="movie-time d-flex align-items-center my-2">
                                 <div class="badge badge-secondary p-1 mr-2">11+</div>
                                 <span class="text-white">{{$item->episode_time}}</span>
@@ -384,14 +384,14 @@
               </div>
               <p>{!!$viewest_movies[0]->content!!}</p>
               <div class="parallax-buttons">
-                 <a href="movie-details.html" class="btn btn-hover">Play Now</a>
-                 <a href="movie-details.html" class="btn btn-link">More details</a>
+                 <a href="{{ route('show_single', ['slug' => $viewest_movies[0]->slug])}}" class="btn btn-hover">Play Now</a>
+                 <a href="{{ route('show_single', ['slug' => $viewest_movies[0]->slug])}}" class="btn btn-link">More details</a>
               </div>
            </div>
         </div>
         <div class="col-lg-8">
            <div class="parallax-img">
-              <a href="movie-details.html">
+              <a href="{{ route('show_single', ['slug' => $viewest_movies[2]->slug])}}">
                 <img src="{{$viewest_movies[2]->poster_url}}" class="img-fluid w-100" alt="bailey">
               </a>
            </div>

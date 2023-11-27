@@ -79,7 +79,7 @@ if (!function_exists('get_select_array')) {
 }
 if (!function_exists('get_lasted_movies')) {
   function get_lasted_movies(){
-    $slide = \App\Models\Movie::limit(5)->inRandomOrder()->get();
+    $slide = \App\Models\Movie::where('trailer_url','!=', '')->limit(5)->inRandomOrder()->get();
    return $slide;
   }
 }
