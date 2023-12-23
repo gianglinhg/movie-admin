@@ -16,11 +16,12 @@ class DirectorController extends Controller
     public function index(){
         $data = [];
         $data['title'] = 'Đạo diễn';
-        $directors = Director::all();
         if(request()->ajax()){
-            return DataTables::of($directors)->make(true);
+            $draw = request()->draw;
+            $page_size = request()->length > 0 ? request()->length : 10;
+            $directors = Director::take($page_size);
+            return DataTables::of($directors)->with(['draw' => $draw])->make(true);
         }
-        $data['directors'] = $directors;
         $data['modal_id'] = 'new_director';
         return view('g-movie.classes.director', $data);
     }

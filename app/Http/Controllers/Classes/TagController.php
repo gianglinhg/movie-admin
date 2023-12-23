@@ -16,11 +16,12 @@ class TagController extends Controller
     public function index(){
         $data = [];
         $data['title'] = 'Tags';
-        $tags = Tag::all();
         if(request()->ajax()){
-            return DataTables::of($tags)->make(true);
+            $draw = request()->draw;
+            $page_size = request()->length > 0 ? request()->length : 10;
+            $tags = Tag::take($page_size);
+            return DataTables::of($tags)->with(['draw' => $draw])->make(true);
         }
-        $data['tags'] = $tags;
         $data['modal_id'] = 'new_tag';
         return view('g-movie.classes.tag', $data);
     }

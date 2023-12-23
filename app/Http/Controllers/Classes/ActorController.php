@@ -16,11 +16,12 @@ class ActorController extends Controller
     public function index(){
         $data = [];
         $data['title'] = 'Diễn viên';
-        $actors = Actor::all();
         if(request()->ajax()){
-            return DataTables::of($actors)->make(true);
+            $draw = request()->draw;
+            $page_size = request()->length > 0 ? request()->length : 10;
+            $actors = Actor::take($page_size);
+            return DataTables::of($actors)->with(['draw' => $draw])->make(true);
         }
-        $data['actors'] = $actors;
         $data['modal_id'] = 'new_actor';
         return view('g-movie.classes.actor', $data);
     }

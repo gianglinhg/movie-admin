@@ -28,7 +28,7 @@ function initDataTable(selector = '', data = {}) {
     },
     serverSide: true,
   };
-  $(selector).DataTable({
+  return $(selector).DataTable({
     ...configDatatable,
     ...data
   })

@@ -1,5 +1,15 @@
 @extends('layouts.app')
 @section('content')
+    <div class="row mb-2">
+        <div class="col-md-2">
+            <select name="data_non" class="form-select" aria-label="Default select example">
+                <option selected>Thiếu data</option>
+                <option value="thumb">Thumb url</option>
+                <option value="poster">Poster url</option>
+                <option value="trailer">Trailer url</option>
+              </select>
+        </div>
+    </div>
     <table class="table table-hover table-striped" id="movieTable">
         <thead>
             <tr>
@@ -32,9 +42,10 @@
             var table = initDataTable('#movieTable', {
                 "ajax": {
                     "url": "/admin/movies",
-                    "type": "GET",
+                    // "type": "GET",
                     "data": function (d) {
                         d.page = (d.start / d.length) + 1; // Tính toán trang hiện tại
+                        d.type = $('select[name="type"]').val();
                     }
                 },
                 columns: [{
@@ -81,7 +92,34 @@
                         }
                     },
                 ],
+                columnDefs:
+      [ {
+          "targets": [1],
+          "orderable": false,
+          "searchable": false,
+          "visible": false,
+      } ],
             })
+        })
+        $('select[name="data_non"]').on('change',function(){
+            $.ajax({
+        url: '/admin/movies', // Thay thế bằng đường dẫn đến controller của bạn
+        type: 'GET',
+        data: {type: $(this).val()},
+        success: function(data) {
+            // Xóa dữ liệu cũ của DataTable
+            $('#movieTable').DataTable().clear().destroy();
+
+            // Cập nhật dữ liệu mới từ kết quả của yêu cầu AJAX
+            $('#movieTable').DataTable({
+                data: data, // Dữ liệu mới từ controller
+                // Cấu hình DataTable theo ý muốn
+            });
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
         })
         $('#movieTable').on('click', '._delete-movie', function() {
             if (confirm('Thao tác này sẽ xóa tất cả liên quan đến phim này ??')) {

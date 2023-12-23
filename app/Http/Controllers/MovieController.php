@@ -27,8 +27,12 @@ class MovieController extends Controller
 
             $movies = Movie::query()
             ->join('users', 'users.id', '=', 'movies.user_id')
-            ->select('movies.*', 'users.name as user_name')
-            ->take($page_size);
+            ->select('movies.*', 'users.name as user_name');
+            if(request()->has('type')){
+                if(request()->type == 'trailer')
+                    $movies = $movies->where('trailer_url','');
+            }
+            $movies = $movies->take($page_size);
 
             return Datatables::of($movies)
                 ->addColumn('user_name', function ($row) {

@@ -25,9 +25,17 @@
 
     <h2>{{ $movie->name }}</h2>
 
-    <div class="custom-iframe-container">
-        <iframe class="custom-iframe" src="{{ $movie->episodes[1]->link}}" frameborder="0"></iframe>
-    </div>
+    <video id=example-video width=600 height=300 class="video-js vjs-default-skin" controls>
+        <source
+           src="https://hdbo.opstream5.com/20230114/29210_45f6d896/index.m3u8"
+           type="application/x-mpegURL">
+      </video>
+    <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
+<script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+      <script>
+      var player = videojs('example-video');
+      player.play();
+      </script>
 
 </body>
 </html>
