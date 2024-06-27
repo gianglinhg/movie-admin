@@ -6,6 +6,7 @@ Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/phim/{slug}', [SiteController::class, 'show_single'])->name('show_single');
 Route::get('/xem/{slug}', [SiteController::class, 'watch'])->name('watch');
 Route::get('/watch/{movie}/{tap}-{id}', [SiteController::class, 'watch_movie'])->name('watch')->where(['tap' => '.*']);
+Route::get('/test', [SiteController::class,'get_menu_the_loai']);
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
