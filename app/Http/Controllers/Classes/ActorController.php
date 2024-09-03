@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Classes;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Actor;
-use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Models\Actor;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class ActorController extends Controller
 {
@@ -54,11 +57,32 @@ class ActorController extends Controller
      */
     public function destroy(string $id)
     {
-        $actor = Actor::find($id);
-        $actor->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Đã xóa thành công',
-        ], 200);
+        try {
+            DB::beginTransaction();
+        
+            $actor = Actor::find($id);
+        
+            if ($actor) {
+                $actor->delete();
+        
+                DB::table('actor_movie')->where('actor_id', $id)->delete();
+        
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Đã xóa thành công',
+                ], 200);
+            } else {
+                throw new \Exception("Actor không tồn tại.");
+            }
+        
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . " Line:" . $e->getLine() . " Message:" . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 201);
+        }
     }
 }

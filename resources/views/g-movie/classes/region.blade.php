@@ -14,7 +14,7 @@
     <!-- Modal thêm mới region -->
     <div class="modal fade" id="new_region" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="title-modal">Thêm mới region</h5>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     {{-- <div class="form-group row">
-                        <div class="d-flex justify-content-end align-items-center gap-2">
+                        <div class="gap-2 d-flex justify-content-end align-items-center">
                             {!! Form::checkbox('seo_key', 'SEO') !!}
                             <span>SEO</span>
                         </div>
@@ -118,8 +118,12 @@
                     if (e == 'confirm') {
                         const id = $(this).data('id');
                         $.post(`${admin_url}/regions/destroy/${id}`, (res, status) => {
-                            toastr.success(res.message);
-                            $("#regionTable").DataTable().ajax.reload();
+                            if(res.status){
+                                toastr.success(res.message);
+                                $("#regionTable").DataTable().ajax.reload();
+                            }else{
+                                toastr.error(res.message);
+                            }
                         });
                     }
                 })

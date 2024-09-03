@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Classes;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Director;
-use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use App\Models\Director;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class DirectorController extends Controller
 {
@@ -54,11 +56,33 @@ class DirectorController extends Controller
      */
     public function destroy(string $id)
     {
-        $director = Director::find($id);
-        $director->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Đã xóa thành công',
-        ], 200);
+        $id = 0;
+        try {
+            DB::beginTransaction();
+        
+            $director = Director::find($id);
+        
+            if ($director) {
+                $director->delete();
+        
+                DB::table('director_movie')->where('director_id', $id)->delete();
+        
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Đã xóa thành công',
+                ], 200);
+            } else {
+                throw new \Exception("Đạo diễn không tồn tại.");
+            }
+        
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . " Line:" . $e->getLine() . " Message:" . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 201);
+        }
     }
 }

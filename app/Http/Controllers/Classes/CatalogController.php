@@ -53,10 +53,17 @@ class CatalogController extends Controller
     public function destroy(string $id)
     {
         $catalog = Catalog::find($id);
-        $catalog->delete();
+        if($catalog){
+            $catalog->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Đã xóa thành công',
+            ], 200);
+        }
         return response()->json([
-            'status' => true,
-            'message' => 'Đã xóa thành công',
-        ], 200);
+            'status' => false,
+            'message' => 'Catalog không tồn tại',
+        ], 201);
     }
+    
 }

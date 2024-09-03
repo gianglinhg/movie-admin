@@ -8,8 +8,9 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Models\Episode;
 use App\Models\Movie;
 use Carbon\Carbon;
-use DB;
-use Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Str;
 
 class Controller extends BaseController
 {
@@ -63,7 +64,7 @@ class Controller extends BaseController
                     if(!is_numeric($item)){
                         $id = DB::table($main)->insertGetId([
                             'name' => $item,
-                            'slug' => \Str::slug($item),
+                            'slug' => Str::slug($item),
                             'name_md5' => md5($item),
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now(),

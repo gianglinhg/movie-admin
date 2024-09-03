@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Classes;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Region;
-use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use App\Models\Region;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class RegionController extends Controller
 {
@@ -52,11 +54,32 @@ class RegionController extends Controller
      */
     public function destroy(string $id)
     {
-        $region = Region::find($id);
-        $region->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Đã xóa thành công',
-        ], 200);
+        try {
+            DB::beginTransaction();
+        
+            $region = Region::find($id);
+        
+            if ($region) {
+                $region->delete();
+        
+                DB::table('movie_region')->where('region_id', $id)->delete();
+        
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Đã xóa thành công',
+                ], 200);
+            } else {
+                throw new \Exception("Khu vực không tồn tại.");
+            }
+        
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . " Line:" . $e->getLine() . " Message:" . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 201);
+        }
     }
 }

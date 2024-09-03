@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Classes;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Tag;
-use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use App\Models\Tag;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class TagController extends Controller
 {
@@ -52,13 +54,35 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    
     public function destroy(string $id)
     {
-        $tag = Tag::find($id);
-        $tag->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Đã xóa thành công',
-        ], 200);
+        try {
+            DB::beginTransaction();
+        
+            $tag = Tag::find($id);
+        
+            if ($tag) {
+                $tag->delete();
+        
+                DB::table('movie_tag')->where('tag_id', $id)->delete();
+        
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Đã xóa thành công',
+                ], 200);
+            } else {
+                throw new \Exception("Tag không tồn tại.");
+            }
+        
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . " Line:" . $e->getLine() . " Message:" . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 201);
+        }
     }
 }

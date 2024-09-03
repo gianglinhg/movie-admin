@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row mb-2">
+    <div class="mb-2 row">
         <div class="col-md-2">
             <select name="data_non" class="form-select" aria-label="Default select example">
                 <option selected>Thiếu data</option>
@@ -128,10 +128,12 @@
                     url: '/admin/movies/' + id,
                     type: 'DELETE',
                     dataType: 'json',
-                    success: function(data) {
-                        if (data.status) {
-                            toastr.success(data.msg);
+                    success: function(res) {
+                        if (res.status) {
+                            toastr.success(res.message);
                             $("#movieTable").DataTable().ajax.reload();
+                        }else{
+                            toastr.error(res.message);
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {

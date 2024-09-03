@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Models\Episode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
-use DB;
-use Auth;
 
 class MovieController extends Controller
 {
@@ -256,34 +257,39 @@ class MovieController extends Controller
      */
     public function destroy(string $id)
     {
-        $movie = Movie::find($id);
-        if($movie){
-            if (checkSub('episodes',$movie->id)) {
-                deleteSub('episodes',$movie->id);
+        $movie = Movie::find(0);
+        try{
+            DB::beginTransaction();
+            if($movie){
+                if (checkSub('episodes',$movie->id)) {
+                    deleteSub('episodes',$movie->id);
+                }
+                if (checkSub('category_movie',$movie->id)) {
+                    deleteSub('category_movie', $movie->id);
+                }
+                if (checkSub('movie_region',$movie->id)) {
+                    deleteSub('movie_region',$movie->id);
+                }
+                if (checkSub('director_movie', $movie->id)) {
+                    deleteSub('director_movie', $movie->id);
+                }
+                if (checkSub('actor_movie', $movie->id)) {
+                    deleteSub('actor_movie', $movie->id);
+                }
+                if (checkSub('movie_tag', $movie->id)) {
+                    deleteSub('movie_tag', $movie->id);
+                }
+                $movie->delete();
+            }else{
+                throw new \Exception("Phim không tồn tại.");
             }
-            if (checkSub('category_movie',$movie->id)) {
-                deleteSub('category_movie', $movie->id);
-            }
-            if (checkSub('movie_region',$movie->id)) {
-                deleteSub('movie_region',$movie->id);
-            }
-            if (checkSub('director_movie', $movie->id)) {
-                deleteSub('director_movie', $movie->id);
-            }
-            if (checkSub('actor_movie', $movie->id)) {
-                deleteSub('actor_movie', $movie->id);
-            }
-            if (checkSub('movie_tag', $movie->id)) {
-                deleteSub('movie_tag', $movie->id);
-            }
-            $movie->delete();
-            $status = true;
-        }else{
-            $status = false;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . " Line:" . $e->getLine() . " Message:" . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 201);
         }
-        return response()->json([
-            'status'=> $status,
-            'msg'=> 'Đã xóa thành công',
-        ],200);
     }
 }

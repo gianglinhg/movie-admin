@@ -15,7 +15,7 @@
     <!-- Modal thêm mới catalog -->
     <div class="modal fade" id="new_catalog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="title-modal">Thêm mới catalog</h5>
@@ -117,8 +117,12 @@
                     if (e == 'confirm') {
                         const id = $(this).data('id');
                         $.post(`${admin_url}/catalogs/destroy/${id}`, (res, status) => {
-                            toastr.success(res.message);
-                            $("#catalogTable").DataTable().ajax.reload();
+                            if(res.status){
+                                toastr.success(res.message);
+                                $("#catalogTable").DataTable().ajax.reload();
+                            }else{
+                                toastr.error(res.message);
+                            }
                         });
                     }
                 })

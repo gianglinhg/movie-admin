@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Classes;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Category;
-use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
@@ -31,7 +34,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = \Auth::id();
+        $data['user_id'] = Auth::id();
         $res = createOrUpdate('categories', $data, Carbon::now());
         return response()->json([
             'status' => true,
@@ -51,13 +54,36 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    
     public function destroy(string $id)
     {
-        $category = Category::find($id);
-        $category->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Đã xóa thành công',
-        ], 200);
+        $id = 0;
+        try {
+            DB::beginTransaction();
+        
+            $actor = Category::find($id);
+        
+            if ($actor) {
+                $actor->delete();
+        
+                DB::table('category_movie')->where('category_id', $id)->delete();
+        
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Đã xóa thành công',
+                ], 200);
+            } else {
+                throw new \Exception("Category không tồn tại");
+            }
+        
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . " Line:" . $e->getLine() . " Message:" . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 201);
+        }
     }
 }
