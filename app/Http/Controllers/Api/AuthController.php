@@ -7,52 +7,82 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 
 class AuthController extends Controller
 {
-    public function login(Request $request){
-        $user = User::where("email", $request->email)->first();
-        // return response()->json($user);
-        if(!$user || !Hash::check($request->password,$user->password, [])){
+    public function login(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required | email',
+                'password' => 'required',
+            ], [
+                "required" => "Trường :attribute bắt buộc nhập!",
+                "email.email" => "Không đúng định dạng email !",
+            ]);
+            $user = User::where("email", $request->email)->first();
+            
+            if (!$user) {
+                throw ValidationException::withMessages([
+                    'email' => ['Email này không tồn tại'],
+                ]);
+            }
+            if(!Hash::check($request->password, $user->password)){
+                throw ValidationException::withMessages([
+                    'password' => ['Mật khẩu không đúng'],
+                ]);
+            }
+            $token = $user->createToken("authToken")->plainTextToken;
             return response()->json([
-                "messages"=> "User không tồn tại"
-            ], 404);
+                'access_token' => $token,
+                'type_token' => 'Bearer'
+            ], 200);
+        } catch (\Throwable $th) {
+            if ($th instanceof ValidationException) {
+                return response()->json([
+                    'errors' => $th->errors(),
+                ], 500);
+            }
+            return response()->json([
+                'errors' => $th->getMessage(),
+            ], 403);
         }
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "name" => "required",
+            "email" => "required | email",
+            "password" => "required | min:8 | max: 20",
+        ], [
+            "email.email" => "Không đúng định dạng email !",
+            "required" => "Trường :attribute bắt buộc nhập!",
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                "messages" => $validator->errors(),
+            ], 500);
+        };
+        $user = User::create($validator->safe()->only(['name', 'email', 'password']));
         $token = $user->createToken("authToken")->plainTextToken;
         return response()->json([
             'access_token' => $token,
             'type_token' => 'Bearer'
         ], 200);
     }
-    public function register(Request $request){
-        $messages = [
-            "email.email"=> "Không đúng định dạng email !",
-        ];
-        $validator = Validator::make($request->all(), [
-            "email"=> "email",
-        ], $messages);
-        if( $validator->fails() ){
-            return response()->json([
-                "messages" => $validator->errors(),
-            ], 500);
-        };
-        $user = User::create([
-            "email"=> $request->email,
-            "password"=> Hash::make($request->password),
-            "name"=> $request->name,
-        ]);
-        if( $user ){
-            return response()->json([
-                "messages"=> "Đăng ký user thành công !"
-            ], 200);
-        }
-    }
-    public function me(){
+
+    public function me()
+    {
         return response()->json(Auth::user(), 200);
     }
-    public function logout(){
+
+    public function logout()
+    {
         Auth::user()->tokens()->delete();
 
         return response()->json([

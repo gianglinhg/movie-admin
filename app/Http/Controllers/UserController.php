@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     private $menu_title;
     public function __construct(){
-        $this->menu_title = 'Authicention';
+        $this->menu_title = 'Authentication';
     }
     public function index(){
         $data = [];

@@ -28,9 +28,13 @@ class Handler extends ExceptionHandler
             if($request->is('api/*')) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Đăng nhập thất bại'
+                    'message' => 'Unauthorized'
                 ], 403);
             }
         });
+    }
+
+    protected function shouldReturnJson($request, Throwable $e){
+        return false;
     }
 }
