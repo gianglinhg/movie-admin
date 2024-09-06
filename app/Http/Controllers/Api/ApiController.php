@@ -12,13 +12,18 @@ use App\Models\Category;
 use App\Models\Director;
 use App\Models\Api_model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class ApiController extends Controller
 {
+    protected $api_model;
+
     public function __construct(){
         $this->api_model = new Api_model();
     }
+
     public function watch_movie($movie_slug, $data){
         $pattern = '/^(?P<episode>tap-\d+)-(?P<id>\d+)$/';
         if (preg_match($pattern, $data, $matches)) {
@@ -44,6 +49,7 @@ class ApiController extends Controller
             "episode"=> $episode,
         ],200);
     }
+
     public function get_movie(string $slug){
         $movie = Movie::where("slug", $slug)->first();
         if(!$movie) return $this->api_model->check_object($movie);
@@ -81,6 +87,7 @@ class ApiController extends Controller
             "episodes"=> $episodes
         ], 200);
     }
+
     public function get_movie_by_category(string $slug){
         $category = Category::where("slug", $slug)->first();
         if(!$category) return $this->api_model->check_object($category);
@@ -93,6 +100,7 @@ class ApiController extends Controller
             $slug => $movies
         ], 200);
     }
+
     public function get_movie_by_region(string $slug){
         $region = Region::where("slug", $slug)->first();
         if(!$region) return $this->api_model->check_object($region);
@@ -105,18 +113,22 @@ class ApiController extends Controller
             $slug => $movies
         ], 200);
     }
+
     public function get_all_categories(){
         $categories = Category::select('id', 'name', 'slug')->get();
         return response()->json($categories, 200);
     }
+
     public function get_all_regions(){
         $regions = Region::select('id', 'name', 'slug')->get();
         return response()->json($regions, 200);
     }
+
     public function get_all_year(){
         $years = Movie::select('publish_year')->distinct()->orderBy('publish_year','desc')->pluck('publish_year')->toArray();
         return response()->json($years, 200);
     }
+
     public function get_actor_movie(string $slug){
         $actor = Actor::where('slug', $slug)->first();
         if(!$actor) return $this->api_model->check_object($actor);
@@ -126,6 +138,7 @@ class ApiController extends Controller
         })->get();
         return response()->json($movies, 200);
     }
+
     public function get_director_movie(string $slug){
         $director = Director::where('slug', $slug)->first();
         if(!$director) return $this->api_model->check_object($director);
@@ -135,6 +148,7 @@ class ApiController extends Controller
         })->get();
         return response()->json($movies, 200);
     }
+
     public function get_tag_movie(string $slug){
         $tag = Tag::where('slug', $slug)->first();
         if(!$tag) return $this->api_model->check_object($tag);
@@ -144,21 +158,38 @@ class ApiController extends Controller
         })->get();
         return response()->json($movies, 200);
     }
+
     public function get_latest_update(Request $request){
         $items = $request->get('total');
         $total = (isset($items) && (int)$items > 0) ? (int)$items : 100;
         $movies = Movie::select('id','name','origin_name', 'slug','thumb_url','poster_url', 'created_at')->latest()->take($total)->get();
-        // foreach($movies as $movie){
-        //     $res[$movie->id]['id'] =  $movie['id'];
-        //     $res[$movie->id]['name'] =  $movie['name'];
-        //     $res[$movie->id]['slug'] =  $movie['slug'];
-        //     $res[$movie->id]['origin_name'] =  $movie['origin_name'];
-        //     $res[$movie->id]['thumb_url'] =  $movie['thumb_url'];
-        //     $res[$movie->id]['poster_url'] =  $movie['poster_url'];
-        //     $res[$movie->id]['created_at'] =  Carbon::parse($movie['created_at'])->format('d-m-Y H:i:s');
-        // }
         return response()->json($movies, 200);
     }
+    
+    public function get_movies_of_type($type){
+        $movie_type = '';
+        $page = request()->page;
+        switch ($type) {
+            case 'phim-bo':
+                $movie_type = 'series';
+                break;
+            case 'phim-le':
+                $movie_type = 'single';
+                break;
+            case 'phim-moi':
+                $movie_type = '';
+                break;
+        }
+        $query = Movie::select('id','name','origin_name', 'slug','thumb_url','poster_url', 'created_at');
+        if(!empty($movie_type)){
+            $query = $query->where('type', $movie_type)->offset($page);
+        }
+        $movies = $query->latest()->limit(100)->get();
+        return response()->json([
+            'data' => $movies,
+        ], 200);
+    }
+
     public function filter_movie(Request $request){
         $select_fied = '
             id,
@@ -210,6 +241,64 @@ class ApiController extends Controller
                 'message' => 'Không có dữ liệu',
             ], 404);
         }
+        return response()->json($movies, 200);
+    }
+
+    public function search_movie(Request $request){
+        try {
+            $keyword = $request->keyword;
+            $limit = $request->limit ?: 100;
+            $page = $request->page;
+
+            $query = Movie::select('id','name','origin_name', 'slug','thumb_url','poster_url', 'created_at');
+            if($keyword){ 
+                $query = $query->where(function($row) use ($keyword){
+                    $row->where('name','LIKE','%' . $keyword . '%')
+                    ->orWhere('origin_name','LIKE','%' . $keyword . '%');
+                });
+            }
+            if($limit){    
+                $query = $query->limit($limit);
+            }
+            $movies = $query->limit($limit)->offset($page)->get();
+            
+            return response()->json([
+                'data' => $movies,
+            ], 200);
+        } catch (\Exception $e) {
+            Log::emergency("File:" . $e->getFile() . " Line:" . $e->getLine() . " Message:" . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 201);
+        }
+    }
+
+    public function get_random_movie_banner(Request $request){
+        $items = $request->get('total');
+        $total = (isset($items) && (int)$items > 0) ? (int)$items : 10;
+
+        $movies = Movie::selectRaw('movies.id, 
+            MAX(movies.name) as name, 
+            MAX(movies.origin_name) as origin_name, 
+            MAX(movies.slug) as slug, 
+            MAX(movies.thumb_url) as thumb_url, 
+            MAX(movies.poster_url) as poster_url, 
+            MAX(movies.publish_year) as publish_year, 
+            MAX(movies.episode_time) as episode_time, 
+            MAX(movies.quality) as quality, 
+            MAX(movies.language) as language, 
+            group_concat(c.name) as categories_name')
+        ->join('category_movie as cm', 'cm.movie_id', '=', 'movies.id')
+        ->join('categories as c', 'c.id', '=', 'cm.category_id')
+        ->whereNotNull('movies.poster_url')
+        ->whereNotNull('movies.thumb_url')
+        ->where('movies.show_slider', 1)
+        ->inRandomOrder()
+        ->take($total)
+        ->groupBy('movies.id')
+        ->get();
+
         return response()->json($movies, 200);
     }
 }

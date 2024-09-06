@@ -83,10 +83,15 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::user()->tokens()->delete();
-
-        return response()->json([
-            "messages" => "Logout thành công",
-        ], 200);
+        try {
+            request()->user()->currentAccessToken()->delete();
+            return response()->json([
+                "messages" => "Logout thành công",
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "errors" => $th->getMessage(),
+            ], 500);
+        }
     }
 }

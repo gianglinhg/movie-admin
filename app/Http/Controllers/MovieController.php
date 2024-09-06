@@ -229,6 +229,7 @@ class MovieController extends Controller
             'is_recommended' => $request->is_recommended ?? 0,
             'is_copyright' => $request->is_copyright ?? 0,
             'is_sensitive_content' => $request->is_sensitive_content ?? 0,
+            'show_slider' => $request->show_slider ?? 0,
             'user_id' => Auth::id(),
             'user_name' => Auth::user()->name,
         ]);

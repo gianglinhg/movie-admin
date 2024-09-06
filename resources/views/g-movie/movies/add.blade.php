@@ -191,7 +191,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="episode-tab" role="tabpanel">
-            <div class="input-group mb-3 w-50">
+            <div class="mb-3 input-group w-50">
                 {{ Form::text('new-server-name', '', ['id' => 'new-server-name', 'class' => 'form-control', 'placeholder' => 'Thuyết minh #1']) }}
                 <span class="btn btn-success md:p-1 add-server-btn">Thêm mới</span>
             </div>
@@ -203,19 +203,19 @@
             </ul>
             <div class="tab-content" id="episode-server-data">
                 <div class="tab-pane active" id="episode-server-0" role="tabpanel">
-                    <div class="form-inline justify-content-left mb-3 px-0">
+                    <div class="px-0 mb-3 form-inline justify-content-left">
                         <button type="button" class="btn btn-warning add-episode-btn" data-server="0"
                             data-server-name="Vietsub #1">
                             <i class="mdi mdi-plus"></i>
                             Thêm tập mới
                         </button>
-                        <button type="button" class="btn btn-danger ml-2 float-right delete-server">
+                        <button type="button" class="float-right ml-2 btn btn-danger delete-server">
                             <i class="mdi mdi-delete"></i>
                             Xóa server
                         </button>
                     </div>
                     <div class="table-responsive" style="max-height: 400px; overflow:auto;">
-                        <table class="table table-bordered mb-4">
+                        <table class="table mb-4 table-bordered">
                             <thead>
                                 <tr>
                                     <th>Tên</th>
@@ -251,7 +251,7 @@
                                         {!! Form::text('episodes[0][link]', 'tap-1', ['class' => 'form-control', 'data-attr-name' => 'link']) !!}
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-outline-danger delete-episode cursor-pointer">Xóa</button>
+                                        <button class="cursor-pointer btn btn-outline-danger delete-episode">Xóa</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -276,6 +276,10 @@
             <div class="col form-check d-flex">
                 {!! Form::checkbox('is_sensitive_content', true) !!}
                 {!! Form::label('is_sensitive_content', 'Cảnh báo nội dung người lớn', ['class' => 'form-check-label']) !!}
+            </div>
+            <div class="col form-check d-flex">
+                {!! Form::checkbox('show_slider', true) !!}
+                {!! Form::label('show_slider', 'Hiển thị trên slider', ['class' => 'form-check-label']) !!}
             </div>
         </div>
     </div>

@@ -45,6 +45,7 @@ class Movie extends Model
         'update_checksum',
         'user_id',
         'user_name',
+        'show_slider',
     ];
 
     public function addEpisode(array $episode, string $movie_id)
@@ -62,7 +63,7 @@ class Movie extends Model
     }
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_movie', 'movie_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'category_movie', 'movie_id', 'category_id')->select('name', 'slug');
     }
     public function tags()
     {

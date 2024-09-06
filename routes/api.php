@@ -24,15 +24,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dien-vien/{slug}', [ApiController::class,'get_actor_movie']);
     Route::get('/dao-dien/{slug}', [ApiController::class,'get_director_movie']);
     Route::get('/tag/{slug}', [ApiController::class,'get_tag_movie']);
-    Route::get('/danh-sach/phim-moi-cap-nhat', [ApiController::class,'get_latest_update']);
+    Route::get('/phim-moi-cap-nhat', [ApiController::class,'get_latest_update']);
+    Route::get('/phim-banner', [ApiController::class,'get_random_movie_banner']);
     
     Route::get('/the-loai/{slug}', [ApiController::class,'get_movie_by_category']);
     Route::get('/khu-vuc/{slug}', [ApiController::class,'get_movie_by_region']);
+    Route::get('/danh-sach/{slug}', [ApiController::class,'get_movies_of_type']);
     
     Route::get('/the-loai', [ApiController::class,'get_all_categories']);
     Route::get('/khu-vuc', [ApiController::class,'get_all_regions']);
     
     Route::get('/filter', [ApiController::class,'filter_movie']);
+    Route::get('/search', [ApiController::class,'search_movie']);
     Route::get('/years', [ApiController::class,'get_all_year']);
 });
 
